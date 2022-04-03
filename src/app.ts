@@ -29,7 +29,7 @@ export const App = async (): Promise<express.Application> => {
   app.use('*', notFound)
 
   // Error
-  //app.use(errorHandler)
+  app.use(errorHandler)
 
   return app
 }

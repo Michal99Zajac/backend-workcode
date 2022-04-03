@@ -1,18 +1,28 @@
 import { Router } from 'express'
-import { InternalServerError } from 'http-errors'
+import { BadRequest } from 'http-errors'
+import bcrypt from 'bcrypt'
 
 import { UserModel, RoleModel } from '../../../common/models'
 import { PublicUser } from '../../../common/schemas'
+import config from '../../../config'
+
+const { SALT_ROUNDS } = config
 
 export const router = Router()
 
 router.post('/auth/signup', async (req, res, next) => {
   try {
     const role = await RoleModel.findOne({ type: 'USER' })
-    if (role === null) throw new Error("Role doesn't exists")
+    if (role === null) throw new Error(req.t('errors.role_not_exists'))
+
+    if (!req.body.password)
+      throw new Error(req.t('errors.password_not_provided'))
+
+    const hash = await bcrypt.hash(req.body.password, SALT_ROUNDS)
 
     const user = await new UserModel({
       ...req.body,
+      password: hash,
       role: role,
     }).populate('role')
 
@@ -23,7 +33,7 @@ router.post('/auth/signup', async (req, res, next) => {
     if (error.name === 'ValidationError') {
       res.status(422).json(error.errors)
     } else {
-      next(new InternalServerError(error.message))
+      next(new BadRequest(error.message))
     }
   }
 })
