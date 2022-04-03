@@ -7,6 +7,7 @@ import { corsOptions } from './cors'
 import { connect } from './db'
 import { router as authRouter } from './auth/routes'
 import { router as workspaceRouter } from './workspace/routes'
+import { errorHandler, notFound } from './common/middlewares'
 
 export const App = async (): Promise<express.Application> => {
   const app: express.Application = express()
@@ -23,6 +24,12 @@ export const App = async (): Promise<express.Application> => {
 
   // routers
   app.use('/api', authRouter, workspaceRouter)
+
+  // 404
+  app.use('*', notFound)
+
+  // Error
+  //app.use(errorHandler)
 
   return app
 }

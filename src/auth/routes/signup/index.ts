@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import { InternalServerError } from 'http-errors'
 
 import { UserModel, RoleModel } from '../../../common/models'
 import { PublicUser } from '../../../common/schemas'
@@ -19,7 +20,11 @@ router.post('/auth/signup', async (req, res, next) => {
 
     res.status(201).json(PublicUser.parse(user))
   } catch (error) {
-    res.status(400).json(error.errors)
+    if (error.name === 'ValidationError') {
+      res.status(422).json(error.errors)
+    } else {
+      next(new InternalServerError(error.message))
+    }
   }
 })
 
