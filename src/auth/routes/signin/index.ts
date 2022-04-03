@@ -2,9 +2,9 @@ import { Router } from 'express'
 
 export const router = Router()
 
-router.get('/auth/signin', (req, res) => {
+router.get('/auth/signin', async (req, res, next) => {
   res.json({
-    message: req.t('example.x'),
+    token: 'token',
   })
 })
 

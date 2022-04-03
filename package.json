@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "cors": "^2.8.5",
+    "dayjs": "^1.11.0",
     "dotenv": "^16.0.0",
     "express": "^4.17.1",
     "helmet": "^5.0.2",
@@ -11,7 +12,9 @@
     "mongoose": "^6.2.9",
     "path": "^0.12.7",
     "ts-node": "^10.3.0",
-    "typescript": "^4.4.4"
+    "typescript": "^4.4.4",
+    "validator": "^13.7.0",
+    "zod": "^3.14.3"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",
@@ -20,6 +23,7 @@
     "@types/i18next-fs-backend": "^1.1.2",
     "@types/mongodb": "^4.0.7",
     "@types/mongoose": "^5.11.97",
+    "@types/validator": "^13.7.2",
     "@typescript-eslint/eslint-plugin": "^5.1.0",
     "@typescript-eslint/parser": "^5.1.0",
     "eslint": "^8.0.1",

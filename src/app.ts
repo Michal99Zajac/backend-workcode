@@ -18,6 +18,8 @@ export const App = async (): Promise<express.Application> => {
   app.use(helmet())
   app.use(cors(corsOptions))
   app.use(i18n)
+  app.use(express.urlencoded({ extended: true }))
+  app.use(express.json())
 
   // routers
   app.use('/api', authRouter, workspaceRouter)
