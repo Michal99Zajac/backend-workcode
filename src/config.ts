@@ -19,6 +19,9 @@ const MONGO_DB = process.env['MONGO_DB'] || 'workcode'
 // BCRYPT
 const SALT_ROUNDS = process.env['SALT_ROUNDS'] || 10
 
+// JWT
+const JWT_SECRET = process.env['JWT_SECRET'] || 'secret'
+
 // API configuration
 export const config = {
   HOST,
@@ -29,6 +32,7 @@ export const config = {
   MONGO_PASSWORD,
   MONGO_AUTH_DB,
   SALT_ROUNDS,
+  JWT_SECRET,
 }
 
 export default config

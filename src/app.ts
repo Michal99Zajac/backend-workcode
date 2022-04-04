@@ -1,7 +1,9 @@
 import express from 'express'
 import helmet from 'helmet'
 import cors from 'cors'
+import passport from 'passport'
 
+import './passport'
 import { i18n } from './i18n'
 import { corsOptions } from './cors'
 import { connect } from './db'
@@ -21,6 +23,7 @@ export const App = async (): Promise<express.Application> => {
   app.use(i18n)
   app.use(express.urlencoded({ extended: true }))
   app.use(express.json())
+  app.use(passport.initialize())
 
   // routers
   app.use('/api', authRouter, workspaceRouter)
