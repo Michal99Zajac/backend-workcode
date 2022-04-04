@@ -27,7 +27,7 @@ passport.use(
 
         return done(null, user, { message: i18next.t('auth.signin.success') })
       } catch (error) {
-        done(error)
+        return done(error)
       }
     }
   )
@@ -44,7 +44,7 @@ passport.use(
       const id = payload
       const user = await UserModel.findOne({ _id: id }).populate('role')
 
-      if (user) done(null, user)
+      if (user) return done(null, user)
 
       return done(new Error(i18next.t('auth.jwt.unauthorized')))
     }
