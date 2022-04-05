@@ -8,11 +8,7 @@ export const RequestBody = z.object({
   lastname: z.string().optional(),
 })
 
-export const Response = PublicUser.pick({
-  name: true,
-  lastname: true,
-  email: true,
-})
+export const Response = PublicUser.omit({ role: true })
 
 export type RequestBody = z.infer<typeof RequestBody>
 
