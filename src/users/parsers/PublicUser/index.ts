@@ -1,7 +1,6 @@
 import { z } from 'zod'
 
-import { User } from '../User'
-import { Role } from '../Role'
+import { User, Role } from '../../models'
 
 export const PublicUser = User.pick({
   name: true,

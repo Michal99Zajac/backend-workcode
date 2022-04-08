@@ -5,7 +5,7 @@ import i18next from 'i18next'
 import bcrypt from 'bcrypt'
 
 import { config } from './config'
-import { UserModel } from './common/models/User'
+import { UserModel } from './users/models'
 
 const JWTStrategy = passportJWT.Strategy
 const LocalStrategy = passportLocal.Strategy

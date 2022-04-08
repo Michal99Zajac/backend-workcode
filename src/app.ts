@@ -7,6 +7,7 @@ import './passport'
 import { i18n } from './i18n'
 import { corsOptions } from './cors'
 import { connect } from './db'
+import userRouter from './users/routes'
 import { router as authRouter } from './auth/routes'
 import { router as workspaceRouter } from './workspace/routes'
 import { errorHandler, notFound } from './common/middlewares'
@@ -26,7 +27,7 @@ export const App = async (): Promise<express.Application> => {
   app.use(passport.initialize())
 
   // routers
-  app.use('/api', authRouter, workspaceRouter)
+  app.use('/api', authRouter, workspaceRouter, userRouter)
 
   // 404
   app.use('*', notFound)

@@ -2,8 +2,8 @@ import { Router } from 'express'
 import { BadRequest } from 'http-errors'
 import bcrypt from 'bcrypt'
 
-import { UserModel, RoleModel } from '../../../common/models'
-import { PublicUser } from '../../../common/schemas'
+import { UserModel, RoleModel } from '../../../users/models'
+import { PublicUser } from '../../../users/parsers'
 import config from '../../../config'
 
 const { SALT_ROUNDS } = config

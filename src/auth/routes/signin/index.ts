@@ -3,7 +3,7 @@ import { Unauthorized, BadRequest } from 'http-errors'
 import passport from 'passport'
 import jwt from 'jsonwebtoken'
 
-import { PublicUser } from '../../../common/schemas'
+import { PublicUser } from '../../../users/parsers'
 import { config } from '../../../config'
 
 const { JWT_SECRET } = config
