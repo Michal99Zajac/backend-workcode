@@ -1,4 +1,9 @@
 {
+  "author": {
+    "email": "michal.99.zajac@gmail.com",
+    "name": "Michal Zajac"
+  },
+  "types": "./src/index.d.ts",
   "dependencies": {
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",

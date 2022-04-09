@@ -5,7 +5,7 @@ import i18next from 'i18next'
 import bcrypt from 'bcrypt'
 
 import { config } from './config'
-import { UserModel } from './users/models'
+import { User } from './users/models'
 
 const JWTStrategy = passportJWT.Strategy
 const LocalStrategy = passportLocal.Strategy
@@ -16,7 +16,7 @@ passport.use(
   new LocalStrategy(
     { usernameField: 'email', passwordField: 'password' },
     async (email, password, done) => {
-      const user = await UserModel.findOne({ email: email }).populate('role')
+      const user = await User.findOne({ email: email }).populate('role')
 
       try {
         if (!user) throw new Error(i18next.t('auth.incorrect.email'))
@@ -41,8 +41,8 @@ passport.use(
       secretOrKey: JWT_SECRET,
     },
     async (payload, done) => {
-      const id = payload
-      const user = await UserModel.findOne({ _id: id }).populate('role')
+      const id = payload as any
+      const user = await User.findOne({ _id: id }).populate('role')
 
       if (user) return done(null, user)
 

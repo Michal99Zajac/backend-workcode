@@ -2,8 +2,7 @@ import { Router } from 'express'
 import { BadRequest } from 'http-errors'
 import bcrypt from 'bcrypt'
 
-import { UserModel, RoleModel } from '../../../users/models'
-import { PublicUser } from '../../../users/parsers'
+import { User, Role } from '../../../users/models'
 import config from '../../../config'
 
 const { SALT_ROUNDS } = config
@@ -12,7 +11,7 @@ export const router = Router()
 
 router.post('/auth/signup', async (req, res, next) => {
   try {
-    const role = await RoleModel.findOne({ type: 'USER' })
+    const role = await Role.findOne({ type: 'USER' })
     if (role === null) throw new Error(req.t('errors.role_not_exists'))
 
     if (!req.body.password)
@@ -20,7 +19,7 @@ router.post('/auth/signup', async (req, res, next) => {
 
     const hash = await bcrypt.hash(req.body.password, SALT_ROUNDS)
 
-    const user = await new UserModel({
+    const user = await new User({
       ...req.body,
       password: hash,
       role: role,
@@ -28,7 +27,7 @@ router.post('/auth/signup', async (req, res, next) => {
 
     await user.save()
 
-    res.status(201).json(PublicUser.parse(user))
+    res.status(201).json(user)
   } catch (error) {
     if (error.name === 'ValidationError') {
       res.status(422).json(error.errors)

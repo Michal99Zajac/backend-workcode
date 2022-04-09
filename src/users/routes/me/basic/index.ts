@@ -1,18 +1,16 @@
 import { Router } from 'express'
 import { BadRequest } from 'http-errors'
 
-import { UserModel, User } from '../../../models'
-
-import { Body, Response } from './schema'
+import { User } from '../../../models'
 
 export const router = Router()
 
 router.patch('/users/me/basic', async (req, res, next) => {
   try {
-    const user = User.parse(req.user)
     const body = req.body
+    const user = req.user as User
 
-    await UserModel.updateOne(
+    await User.updateOne(
       { _id: user._id },
       {
         name: body.name,
@@ -23,8 +21,8 @@ router.patch('/users/me/basic', async (req, res, next) => {
         runValidators: true,
       }
     )
-    const updatedUser = await UserModel.findById(user._id)
-    res.json(Response.parse(updatedUser))
+    const updatedUser = await User.findById(user._id)
+    res.json(updatedUser)
   } catch (error) {
     next(new BadRequest(error))
   }

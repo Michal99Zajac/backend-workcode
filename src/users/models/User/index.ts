@@ -1,23 +1,21 @@
 import mongoose from 'mongoose'
 import dayjs from 'dayjs'
-import { z } from 'zod'
+// import { z } from 'zod'
 import { ObjectId } from 'mongodb'
 import validator from 'validator'
 
 import { Role } from '../Role'
 
-export const User = z.object({
-  _id: z.instanceof(ObjectId),
-  name: z.string(),
-  lastname: z.string(),
-  src: z.string().nullish(),
-  email: z.string().email(),
-  role: Role.array(),
-  password: z.string(),
-  updatedAt: z.date(),
-})
-
-export type User = z.infer<typeof User>
+export interface User {
+  _id: mongoose.Types.ObjectId
+  name: string
+  lastname: string
+  src: string | null | undefined
+  email: string
+  role: Role
+  password: string
+  updatedAt: Date
+}
 
 const UserSchema = new mongoose.Schema<User>({
   name: {
@@ -68,6 +66,17 @@ UserSchema.pre('save', function (next) {
   next()
 })
 
-export const UserModel = mongoose.model<User>('users', UserSchema)
+// virtuals
+UserSchema.virtual('public').get(function (this: User) {
+  return {
+    id: this._id,
+    lastname: this.lastname,
+    name: this.lastname,
+    email: this.email,
+    src: this.src,
+  }
+})
 
-export default UserModel
+export const User = mongoose.model<User>('users', UserSchema)
+
+export default User
