@@ -2,6 +2,7 @@ import { Router } from 'express'
 import { BadRequest } from 'http-errors'
 
 import { User, Role } from '../../../users/models'
+import { prettyError } from '../../../common/utils'
 
 export const router = Router()
 
@@ -17,7 +18,7 @@ router.post('/auth/signup', async (req, res, next) => {
 
     res.status(201).json(created.publicWithRoles)
   } catch (error) {
-    next(new BadRequest(error.message))
+    next(new BadRequest(prettyError(error)))
   }
 })
 

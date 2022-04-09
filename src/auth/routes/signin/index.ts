@@ -16,7 +16,7 @@ router.post('/auth/signin', async (req, res, next) => {
     'local',
     { session: false },
     (err, user: DocumentType<UserClass>, info) => {
-      if (err || !user) return next(new Unauthorized(err.message || undefined))
+      if (err) return next(new Unauthorized(err.message))
 
       try {
         const token = jwt.sign({ _id: user._id }, JWT_SECRET)
