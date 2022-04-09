@@ -1,14 +1,15 @@
 import { Router } from 'express'
+import { DocumentType } from '@typegoose/typegoose'
 import { BadRequest } from 'http-errors'
 
-import { User } from '../../../models'
+import { User, UserClass } from '../../../models'
 
 export const router = Router()
 
 router.patch('/users/me/basic', async (req, res, next) => {
   try {
     const body = req.body
-    const user = req.user as User
+    const user = req.user as DocumentType<UserClass>
 
     await User.updateOne(
       { _id: user._id },

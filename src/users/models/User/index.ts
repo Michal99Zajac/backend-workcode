@@ -1,82 +1,107 @@
-import mongoose from 'mongoose'
-import dayjs from 'dayjs'
-// import { z } from 'zod'
-import { ObjectId } from 'mongodb'
+import {
+  getModelForClass,
+  modelOptions,
+  pre,
+  prop,
+  Ref,
+} from '@typegoose/typegoose'
+import { v4 } from 'uuid'
 import validator from 'validator'
+import bcrypt from 'bcrypt'
 
-import { Role } from '../Role'
+import { RoleClass } from '../Role'
+import { config } from '../../../config'
 
-export interface User {
-  _id: mongoose.Types.ObjectId
-  name: string
-  lastname: string
-  src: string | null | undefined
-  email: string
-  role: Role
-  password: string
-  updatedAt: Date
-}
+const { SALT_ROUNDS } = config
 
-const UserSchema = new mongoose.Schema<User>({
-  name: {
-    type: String,
+@pre<UserClass>('save', async function () {
+  const hash = await bcrypt.hash(this.password, SALT_ROUNDS)
+
+  this.id = v4()
+  this.password = hash
+})
+@modelOptions({
+  schemaOptions: {
+    collection: 'Users',
+  },
+})
+export class UserClass {
+  @prop({
+    type: () => String,
+    unique: true,
+    immutable: true,
+  })
+  public id: string
+
+  @prop({
+    type: () => String,
     required: [true, 'Name is required'],
     maxlength: [255, 'Name is too long'],
-  },
-  lastname: {
-    type: String,
+  })
+  public name: string
+
+  @prop({
+    type: () => String,
     required: [true, 'Lastname is required'],
     maxlength: [255, 'Lastname is too long'],
-  },
-  email: {
-    type: String,
+  })
+  public lastname: string
+
+  @prop({
+    type: () => String,
     required: [true, 'Email is required'],
     unique: true,
     validate: {
       validator: (email: string) => validator.isEmail(email),
       message: (value) => `${value.value} is not an email`,
     },
-  },
-  src: {
-    type: String,
+  })
+  public email: string
+
+  @prop({
+    type: () => String,
     default: null,
-  },
-  password: {
-    type: String,
+  })
+  public src: string
+
+  @prop({
+    type: () => String,
     required: [true, 'Password is required'],
     validate: {
       validator: (password: string) => validator.isStrongPassword(password),
       message: 'Password is too weak',
     },
-  },
-  role: {
-    type: [ObjectId],
-    ref: 'roles',
-  },
-  updatedAt: {
-    type: Date,
-    required: true,
-    default: dayjs().toDate(),
-  },
-})
+  })
+  public password: string
 
-// middlewares
-UserSchema.pre('save', function (next) {
-  this.updatedAt = dayjs().toDate()
-  next()
-})
+  @prop({
+    ref: () => RoleClass,
+  })
+  public roles: Ref<RoleClass>[]
 
-// virtuals
-UserSchema.virtual('public').get(function (this: User) {
-  return {
-    id: this._id,
-    lastname: this.lastname,
-    name: this.lastname,
-    email: this.email,
-    src: this.src,
+  // virtuals
+  public get public() {
+    return {
+      id: this.id,
+      name: this.name,
+      lastname: this.lastname,
+      src: this.src,
+      email: this.email,
+    }
   }
-})
 
-export const User = mongoose.model<User>('users', UserSchema)
+  public get publicWithRoles() {
+    return {
+      id: this.id,
+      name: this.name,
+      lastname: this.lastname,
+      src: this.src,
+      email: this.email,
+      roles: this.roles,
+    }
+  }
+}
+
+export const User = getModelForClass(UserClass)
 
 export default User

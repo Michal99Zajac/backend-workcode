@@ -1,16 +1,18 @@
-import mongoose from 'mongoose'
+import { prop, getModelForClass, modelOptions } from '@typegoose/typegoose'
 
-export interface Role {
-  _id: mongoose.Types.ObjectId
-  type: 'USER'
-}
-
-export const RoleSchema = new mongoose.Schema<Role>({
-  type: {
-    type: String,
-    required: true,
-    enum: ['USER'],
+@modelOptions({
+  schemaOptions: {
+    collection: 'Roles',
   },
 })
+export class RoleClass {
+  @prop({
+    type: () => String,
+    required: true,
+    unique: true,
+    enum: ['USER'],
+  })
+  public value: string
+}
 
-export const Role = mongoose.model('roles', RoleSchema)
+export const Role = getModelForClass(RoleClass)
