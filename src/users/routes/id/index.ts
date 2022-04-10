@@ -1,16 +1,18 @@
 import { Router } from 'express'
+import { NotFound } from 'http-errors'
 
 import { User } from '../../models'
 
 export const router = Router()
 
 router.get('/users/:id', async (req, res, next) => {
+  const id = req.params.id
+
   try {
-    const id = req.params.id
-    const user = await User.findOne({ _id: id })
-    res.status(200).json(user)
+    const user = await User.findOne({ id: id }).orFail()
+    res.status(200).json(user.public)
   } catch (error) {
-    next(error)
+    next(new NotFound(req.t('error.not_found')))
   }
 })
 

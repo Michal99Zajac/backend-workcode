@@ -3,6 +3,7 @@ import passportLocal from 'passport-local'
 import passportJWT, { ExtractJwt } from 'passport-jwt'
 import i18next from 'i18next'
 import bcrypt from 'bcrypt'
+import { Forbidden } from 'http-errors'
 
 import { config } from './config'
 import { User } from './users/models'
@@ -49,11 +50,11 @@ passport.use(
     },
     async (payload, done) => {
       const id = payload as any
-      const user = await User.findOne({ _id: id }).populate('role')
+      const user = await User.findOne({ _id: id }).populate('roles')
 
       if (user) return done(null, user)
 
-      return done(new Error(i18next.t('auth.jwt.unauthorized')))
+      return done(new Forbidden(i18next.t('auth.jwt.unauthorized')))
     }
   )
 )
