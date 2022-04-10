@@ -15,9 +15,8 @@ import { RoleClass } from '../Role'
 
 const { SALT_ROUNDS } = config
 
-@pre<UserClass>('save', async function save() {
+@pre<UserClass>('save', async function () {
   const hash = await bcrypt.hash(this.password, SALT_ROUNDS)
-
   this.id = v4()
   this.password = hash
 })
