@@ -1,6 +1,5 @@
 import { Router } from 'express'
 import passport from 'passport'
-import { BadRequest } from 'http-errors'
 
 import { User } from '../models'
 
@@ -15,13 +14,15 @@ router.use(
   userIdRouter
 )
 
-router.get('/users', async (req, res, next) => {
-  try {
-    const users = await User.find({})
-    res.json(users)
-  } catch (error) {
-    next(new BadRequest(error))
-  }
+router.get('/users', async (req, res) => {
+  const query = req.query.query as string | undefined
+  const regex = new RegExp(query, 'i')
+
+  const users = await User.find({
+    $or: [{ name: regex }, { lastname: regex }, { email: regex }],
+  }).transform((users) => users.map((user) => user.public))
+
+  res.json(users)
 })
 
 export default router
