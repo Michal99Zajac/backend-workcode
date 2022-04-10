@@ -7,6 +7,7 @@ import validator from 'validator'
 import { config } from '../../../config'
 import { UserClass, User } from '../../models/User'
 import { prettyError } from '../../../common/utils'
+import { encryptPassword } from '../../utils'
 
 const { SALT_ROUNDS } = config
 
@@ -20,18 +21,9 @@ router.patch('/users/me', async (req, res, next) => {
   const body = req.body
   const user = req.user as DocumentType<UserClass>
 
-  let newPassword = undefined
-  if (body.password) {
-    if (!validator.isStrongPassword(body.password)) {
-      return next(
-        new UnprocessableEntity({ password: 'password is too weak' } as any)
-      )
-    }
-
-    newPassword = await bcrypt.hash(body.password, SALT_ROUNDS)
-  }
-
   try {
+    const newPassword = encryptPassword(body.password)
+
     const updatedUser: DocumentType<UserClass> = await User.updateOne(
       { id: user.id },
       {
