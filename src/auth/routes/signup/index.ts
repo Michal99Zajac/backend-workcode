@@ -8,14 +8,18 @@ export const router = Router()
 
 router.post('/auth/signup', async (req, res, next) => {
   try {
-    const roles = await Role.find(/*{ value: 'USER' }*/)
+    const roles = await Role.find({ value: 'USER' })
 
-    const user = await User.create({
+    const user = await new User({
       ...req.body,
-      roles: ['6252b6892f961e0464109a91', '6252b6902f961e0464109a92'],
+      roles: roles.map((role) => role._id),
     })
-    const created = await (await user.save()).populate('roles')
-    res.status(201).json(created.publicWithRoles)
+      .save()
+      .then((result) => {
+        return result.populate('roles')
+      })
+
+    res.status(201).json(user.publicWithRoles)
   } catch (error) {
     next(new BadRequest(prettyError(error)))
   }

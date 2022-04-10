@@ -3,6 +3,7 @@ import {
   modelOptions,
   pre,
   prop,
+  PropType,
   Ref,
 } from '@typegoose/typegoose'
 
@@ -37,7 +38,12 @@ export class UserClass {
   @prop(props['password'])
   public password: string
 
-  @prop(props['roles'])
+  @prop(
+    {
+      ref: () => RoleClass,
+    },
+    PropType.ARRAY
+  )
   public roles: Ref<RoleClass>[]
 
   // virtuals
@@ -58,7 +64,9 @@ export class UserClass {
       lastname: this.lastname,
       src: this.src,
       email: this.email,
-      roles: this.roles,
+      roles: this.roles.map((role: RoleClass) =>
+        role.value ? role.value : role
+      ),
     }
   }
 }

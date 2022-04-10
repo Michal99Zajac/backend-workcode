@@ -1,5 +1,4 @@
 import { BasePropOptions } from '@typegoose/typegoose/lib/types'
-import mongoose from 'mongoose'
 import validator from 'validator'
 
 import { RoleClass } from '../../Role'
@@ -40,9 +39,6 @@ export const props: Record<string, BasePropOptions> = {
       validator: (password: string) => validator.isStrongPassword(password),
       message: 'Password is too weak',
     },
-  },
-  roles: {
-    ref: () => RoleClass,
   },
 }
 
