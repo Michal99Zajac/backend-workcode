@@ -1,16 +1,24 @@
 export const prettyError = (error: any) => {
   if (error.name === 'ValidationError') {
-    return Object.entries(error.errors).map(([key, value]: [any, any]) => ({
-      key: key,
-      message: value.message,
-    }))
+    const records: Record<string, string> = {}
+
+    for (const entry of Object.entries(error.errors)) {
+      const [key, value]: [any, any] = entry
+      records[key] = value.message
+    }
+
+    return records
   }
 
   if (error.code === 11000) {
-    return Object.entries(error.keyValue).map(([key, value]: [any, any]) => ({
-      key: key,
-      message: `${value} already exists`,
-    }))
+    const records: Record<string, string> = {}
+
+    for (const entry of Object.entries(error.errors)) {
+      const [key, value]: [any, any] = entry
+      records[key] = `${value} already exists`
+    }
+
+    return records
   }
 
   return error
