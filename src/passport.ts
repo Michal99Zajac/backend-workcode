@@ -7,7 +7,6 @@ import { Forbidden } from 'http-errors'
 
 import { config } from './config'
 import { User } from './users/models'
-import { WorkcodeErrors } from './types'
 
 const JWTStrategy = passportJWT.Strategy
 const LocalStrategy = passportLocal.Strategy
@@ -21,19 +20,13 @@ passport.use(
       // check email and get user
       const user = await User.findOne({ email: email }).populate('roles')
       if (!user) {
-        const errors: WorkcodeErrors = [
-          { key: 'email', message: i18next.t('auth.incorrect.email') },
-        ]
-        return done(errors)
+        return done({ email: i18next.t('auth.incorrect.email') })
       }
 
       // check password
       const isCorrect = await bcrypt.compare(password, user.password)
       if (!isCorrect) {
-        const errors: WorkcodeErrors = [
-          { key: 'password', message: i18next.t('auth.incorrect.password') },
-        ]
-        return done(errors)
+        return done({ password: i18next.t('auth.incorrect.password') })
       }
 
       return done(null, user, { message: i18next.t('auth.signin.success') })
