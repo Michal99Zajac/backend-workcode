@@ -49,10 +49,11 @@ passport.use(
       secretOrKey: JWT_SECRET,
     },
     async (payload, done) => {
-      const id = payload as any
-      const user = await User.findOne({ _id: id }).populate('roles')
+      const id = payload.id as string
 
-      if (user) return done(null, user)
+      const user = await User.findOne({ id: id }).populate('roles')
+
+      if (user) return done(null, user.publicWithRoles)
 
       return done(new Forbidden(i18next.t('auth.jwt.unauthorized')))
     }
