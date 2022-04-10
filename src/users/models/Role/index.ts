@@ -10,7 +10,7 @@ export class RoleClass {
     type: () => String,
     required: true,
     unique: true,
-    enum: ['USER'],
+    enum: ['USER', 'ADMIN'],
   })
   public value: string
 }

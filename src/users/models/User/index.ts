@@ -5,78 +5,39 @@ import {
   prop,
   Ref,
 } from '@typegoose/typegoose'
-import { v4 } from 'uuid'
-import validator from 'validator'
-import bcrypt from 'bcrypt'
 
 import { RoleClass } from '../Role'
-import { config } from '../../../config'
 
-const { SALT_ROUNDS } = config
+import { props } from './props'
+import { save } from './hooks'
 
-@pre<UserClass>('save', async function () {
-  const hash = await bcrypt.hash(this.password, SALT_ROUNDS)
-
-  this.id = v4()
-  this.password = hash
-})
+@pre('save', save)
 @modelOptions({
   schemaOptions: {
     collection: 'Users',
+    timestamps: true,
   },
 })
 export class UserClass {
-  @prop({
-    type: () => String,
-    unique: true,
-    immutable: true,
-  })
+  @prop(props['id'])
   public id: string
 
-  @prop({
-    type: () => String,
-    required: [true, 'Name is required'],
-    maxlength: [255, 'Name is too long'],
-  })
+  @prop(props['name'])
   public name: string
 
-  @prop({
-    type: () => String,
-    required: [true, 'Lastname is required'],
-    maxlength: [255, 'Lastname is too long'],
-  })
+  @prop(props['lastname'])
   public lastname: string
 
-  @prop({
-    type: () => String,
-    required: [true, 'Email is required'],
-    unique: true,
-    validate: {
-      validator: (email: string) => validator.isEmail(email),
-      message: (value) => `${value.value} is not an email`,
-    },
-  })
+  @prop(props['email'])
   public email: string
 
-  @prop({
-    type: () => String,
-    default: null,
-  })
+  @prop(props['src'])
   public src: string
 
-  @prop({
-    type: () => String,
-    required: [true, 'Password is required'],
-    validate: {
-      validator: (password: string) => validator.isStrongPassword(password),
-      message: 'Password is too weak',
-    },
-  })
+  @prop(props['password'])
   public password: string
 
-  @prop({
-    ref: () => RoleClass,
-  })
+  @prop(props['roles'])
   public roles: Ref<RoleClass>[]
 
   // virtuals
