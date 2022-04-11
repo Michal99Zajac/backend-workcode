@@ -2,9 +2,9 @@ import { Router } from 'express'
 import { DocumentType } from '@typegoose/typegoose'
 import { UnprocessableEntity, BadRequest } from 'http-errors'
 
-import { UserClass, User } from '../../models/User'
-import { prettyError } from '../../../common/utils'
-import { encryptPassword } from '../../utils'
+import { UserClass, User } from '@users/models/User'
+import { prettyError } from '@common/utils'
+import { encryptPassword } from '@users/utils'
 
 export const router = Router()
 

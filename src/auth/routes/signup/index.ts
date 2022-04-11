@@ -1,8 +1,8 @@
 import { Router } from 'express'
 import { BadRequest } from 'http-errors'
 
-import { User, Role } from '../../../users/models'
-import { prettyError } from '../../../common/utils'
+import { User, Role } from '@users/models'
+import { prettyError } from '@common/utils'
 
 export const router = Router()
 

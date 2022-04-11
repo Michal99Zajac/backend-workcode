@@ -5,8 +5,8 @@ import i18next from 'i18next'
 import bcrypt from 'bcrypt'
 import { Forbidden } from 'http-errors'
 
-import { config } from './config'
-import { User } from './users/models'
+import { config } from '@config'
+import { User } from '@users/models'
 
 const JWTStrategy = passportJWT.Strategy
 const LocalStrategy = passportLocal.Strategy

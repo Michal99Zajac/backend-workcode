@@ -4,8 +4,8 @@ import { Unauthorized } from 'http-errors'
 import passport from 'passport'
 import jwt from 'jsonwebtoken'
 
-import { UserClass } from '../../../users/models'
-import { config } from '../../../config'
+import { UserClass } from '@users/models'
+import { config } from '@config'
 
 const { JWT_SECRET } = config
 

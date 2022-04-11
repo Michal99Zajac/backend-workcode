@@ -1,6 +1,6 @@
 import { CorsOptions } from 'cors'
 
-import { config } from './config'
+import { config } from '@config'
 
 const { ALLOWED_HOST } = config
 

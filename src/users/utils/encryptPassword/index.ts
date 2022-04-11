@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt'
 import validator from 'validator'
 
-import { config } from '../../../config'
+import { config } from '@config'
 
 const { SALT_ROUNDS } = config
 

@@ -11,8 +11,8 @@ import validator from 'validator'
 import { v4 } from 'uuid'
 import bcrypt from 'bcrypt'
 
-import { config } from '../../../config'
-import { RoleClass } from '../Role'
+import { config } from '@config'
+import { RoleClass } from '@users/models/Role'
 
 const { SALT_ROUNDS } = config
 

@@ -1,6 +1,6 @@
 import mongoose, { Mongoose } from 'mongoose'
 
-import { config } from './config'
+import { config } from '@config'
 
 const { MONGO_URL, MONGO_PASSWORD, MONGO_USERNAME, MONGO_AUTH_DB } = config
 

@@ -10,12 +10,16 @@
     "outDir": "dist",
     "baseUrl": ".",
     "paths": {
-      "*": [
-        "node_modules/*"
-      ]
-    },
+      "@root/*": ["src/*"],
+      "@users/*": ["src/users/*"],
+      "@auth/*": ["src/auth/*"],
+      "@common/*": ["src/common/*"],
+      "@workspace/*": ["src/workspace/*"],
+      "@config": ["src/config"]
+    }
   },
   "include": [
     "src"
-  ]
+  ],
+  "exclude": ["node_modules"]
 }

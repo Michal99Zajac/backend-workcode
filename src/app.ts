@@ -3,14 +3,15 @@ import helmet from 'helmet'
 import cors from 'cors'
 import passport from 'passport'
 
-import './passport'
-import { i18n } from './i18n'
-import { corsOptions } from './cors'
+import userRouter from '@users/routes'
+import { router as authRouter } from '@auth/routes'
+import { router as workspaceRouter } from '@workspace/routes'
+import { errorHandler, notFound } from '@common/middlewares'
+
 import { connect } from './db'
-import userRouter from './users/routes'
-import { router as authRouter } from './auth/routes'
-import { router as workspaceRouter } from './workspace/routes'
-import { errorHandler, notFound } from './common/middlewares'
+import { corsOptions } from './cors'
+import { i18n } from './i18n'
+import './passport'
 
 export const App = async (): Promise<express.Application> => {
   const app: express.Application = express()
