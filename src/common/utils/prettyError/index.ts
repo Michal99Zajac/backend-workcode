@@ -13,7 +13,7 @@ export const prettyError = (error: any) => {
   if (error.code === 11000) {
     const records: Record<string, string> = {}
 
-    for (const entry of Object.entries(error.errors)) {
+    for (const entry of Object.entries(error.keyValue)) {
       const [key, value]: [any, any] = entry
       records[key] = `${value} already exists`
     }

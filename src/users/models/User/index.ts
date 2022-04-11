@@ -1,6 +1,7 @@
 import {
   getModelForClass,
   modelOptions,
+  DocumentType,
   pre,
   prop,
   PropType,
@@ -83,6 +84,11 @@ export class UserClass {
   )
   public roles: Ref<RoleClass>[]
 
+  // instance methods
+  public async checkPassword(this: DocumentType<UserClass>, password: string) {
+    return bcrypt.compare(password, this.password)
+  }
+
   // virtuals
   public get public() {
     return {
@@ -106,6 +112,8 @@ export class UserClass {
       ),
     }
   }
+
+  // static functions
 }
 
 export const User = getModelForClass(UserClass)
