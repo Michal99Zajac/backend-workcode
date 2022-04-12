@@ -2,8 +2,11 @@
   "root": true,
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "project": "tsconfig.json",
+    "project": "./tsconfig.json",
     "sourceType": "module"
+  },
+  "env": {
+    "node": true
   },
   "plugins": [
     "@typescript-eslint/eslint-plugin",
@@ -16,5 +19,7 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended"
   ],
-  "rules": {}
+  "rules": {
+    "@typescript-eslint/no-explicit-any": 0
+  }
 }

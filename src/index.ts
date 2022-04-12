@@ -1,5 +1,7 @@
-import { App } from './app'
-import config from './config'
+import 'module-alias/register'
+
+import { App } from '@root/app'
+import config from '@config'
 
 const { PORT, HOST } = config
 ;(async () => {

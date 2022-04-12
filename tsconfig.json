@@ -4,17 +4,22 @@
     "esModuleInterop": true,
     "target": "es6",
     "noImplicitAny": true,
+    "experimentalDecorators": true,
     "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "dist",
     "baseUrl": ".",
     "paths": {
-      "*": [
-        "node_modules/*"
-      ]
+      "@root/*": ["src/*"],
+      "@users/*": ["src/users/*"],
+      "@auth/*": ["src/auth/*"],
+      "@common/*": ["src/common/*"],
+      "@workspace/*": ["src/workspace/*"],
+      "@config": ["src/config"]
     }
   },
   "include": [
-    "src/**/*"
-  ]
+    "src"
+  ],
+  "exclude": ["node_modules"]
 }
