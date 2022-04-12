@@ -8,6 +8,7 @@ import { router as authRouter } from '@auth/routes'
 import { router as workspaceRouter } from '@workspace/routes'
 import { errorHandler, notFound } from '@common/middlewares'
 
+import { create as createMailer } from './mailer'
 import { connect } from './db'
 import { corsOptions } from './cors'
 import { i18n } from './i18n'
@@ -18,6 +19,9 @@ export const App = async (): Promise<express.Application> => {
 
   // connect to the mongo database
   await connect()
+
+  // create SMTP transporter
+  createMailer()
 
   // middlewares
   app.use(helmet())
