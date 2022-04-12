@@ -20,7 +20,7 @@ router.get('/auth/forgot-password', async (req, res, next) => {
       new BadRequest({ email: 'user with that email doesnt exist' } as any)
     )
 
-  const token = jwt.sign({ id: user.id }, JWT_SECRET)
+  const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: '15m' })
 
   try {
     await mailer.sendMail({
