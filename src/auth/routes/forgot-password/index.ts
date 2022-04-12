@@ -11,7 +11,7 @@ const { JWT_SECRET } = config
 
 export const router = Router()
 
-router.get('/auth/forgot-password', async (req, res, next) => {
+router.post('/auth/forgot-password', async (req, res, next) => {
   const email = req.body.email
   const user = await User.findOne({ email: email })
 

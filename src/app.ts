@@ -2,6 +2,7 @@ import express from 'express'
 import helmet from 'helmet'
 import cors from 'cors'
 import passport from 'passport'
+import morgan from 'morgan'
 
 import userRouter from '@users/routes'
 import { router as authRouter } from '@auth/routes'
@@ -30,6 +31,7 @@ export const App = async (): Promise<express.Application> => {
   app.use(express.urlencoded({ extended: true }))
   app.use(express.json())
   app.use(passport.initialize())
+  app.use(morgan('combined'))
 
   // routers
   app.use('/api', authRouter, workspaceRouter, userRouter)
