@@ -19,6 +19,7 @@ export const config = {
   MONGO_USERNAME: process.env['MONGO_USERNAME'] || 'admin',
   MONGO_PASSWORD: process.env['MONGO_PASSWORD'] || 'password',
   MONGO_DB: process.env['MONGO_DB'] || 'workcode',
+  MONGO_URL: '',
 
   // BCRYPT
   SALT_ROUNDS: process.env['SALT_ROUNDS'] || 10,
