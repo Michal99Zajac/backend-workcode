@@ -46,7 +46,7 @@ passport.use(
 
       const user = await User.findOne({ id: id }).populate('roles')
 
-      if (user) return done(null, user.publicWithRoles)
+      if (user) return done(null, user)
 
       return done(new Forbidden(i18next.t('auth.jwt.unauthorized')))
     }

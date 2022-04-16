@@ -14,7 +14,7 @@
       "@users/*": ["src/users/*"],
       "@auth/*": ["src/auth/*"],
       "@common/*": ["src/common/*"],
-      "@workspace/*": ["src/workspace/*"],
+      "@workspaces/*": ["src/workspaces/*"],
       "@config": ["src/config"]
     }
   },

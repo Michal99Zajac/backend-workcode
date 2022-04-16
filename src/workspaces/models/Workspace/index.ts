@@ -7,6 +7,7 @@ import {
   Ref,
 } from '@typegoose/typegoose'
 import { v4 } from 'uuid'
+import { TimeStamps } from '@typegoose/typegoose/lib/defaultClasses'
 
 import { UserClass } from '@users/models/User'
 
@@ -19,7 +20,7 @@ import { UserClass } from '@users/models/User'
     timestamps: true,
   },
 })
-export class Workspace {
+export class Workspace extends TimeStamps {
   @prop({
     type: () => String,
     unique: true,
@@ -44,7 +45,7 @@ export class Workspace {
   @prop({
     type: () => String,
     required: [true, 'Code type is required'],
-    enum: [['BASH', 'JAVASCRIPT', 'PYTHON'], 'Type of code is not allowed'],
+    enum: ['BASH', 'JAVASCRIPT', 'PYTHON'],
   })
   public code: string
 
@@ -60,7 +61,19 @@ export class Workspace {
   // instance methods
 
   // virtuals
+  public get public() {
+    const author = this.author as UserClass
+    const contributors = this.contributors as UserClass[]
 
+    return {
+      id: this.id,
+      name: this.name,
+      code: this.code,
+      createdAt: this.createdAt,
+      author: author.public,
+      contributors: contributors.map((contributor) => contributor.public),
+    }
+  }
   // static functions
 }
 
