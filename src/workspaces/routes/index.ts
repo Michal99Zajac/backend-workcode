@@ -10,11 +10,10 @@ export const router = Router()
 router.use(passport.authenticate('jwt', { session: false }))
 
 router.get('/workspaces', async (req, res) => {
-  const workspaces = await WorkspaceModel.find()
-    .populate('author contributors')
-    .then((results) => results.map((result) => result.public))
+  const user = req.user as any
+  const workspaces = await WorkspaceModel.find().findMy(user._id)
 
-  res.json(workspaces)
+  res.json(workspaces.map((workspace) => workspace.public))
 })
 
 router.post('/workspaces', async (req, res, next) => {
