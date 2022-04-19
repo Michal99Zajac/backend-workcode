@@ -1,5 +1,4 @@
-import { IObjectWithTypegooseFunction } from '@typegoose/typegoose/lib/types'
-import { Document } from 'mongoose'
+import { types } from '@typegoose/typegoose'
 
 import { Workspace } from '@workspaces/models'
 
@@ -10,8 +9,5 @@ export type WorkcodeError = {
 
 export type WorkcodeErrors = WorkcodeError[]
 
-export type Query = Document<any, any, any> &
-  Workspace &
-  IObjectWithTypegooseFunction & {
-    _id: any
-  }
+export type QueryHelperType<T, QH> = Promise<types.DocumentType<T>> &
+  types.QueryHelperThis<typeof Workspace, QH>

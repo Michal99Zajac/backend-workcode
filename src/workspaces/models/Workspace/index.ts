@@ -11,12 +11,17 @@ import { v4 } from 'uuid'
 import { TimeStamps } from '@typegoose/typegoose/lib/defaultClasses'
 
 import { UserClass } from '@users/models/User'
-import { QueryHelpers, findMy } from '@workspaces/queries/workspace'
+import {
+  QueryHelpers,
+  findMy,
+  publicPopulate,
+} from '@workspaces/queries/workspace'
 
 @pre<Workspace>('save', async function () {
   this.id = v4()
 })
 @queryMethod(findMy)
+@queryMethod(publicPopulate)
 @modelOptions({
   schemaOptions: {
     collection: 'Workspaces',
