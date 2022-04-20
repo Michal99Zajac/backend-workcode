@@ -10,7 +10,7 @@ export const router = Router()
 router.use(passport.authenticate('jwt', { session: false }))
 
 router.get('/workspaces', async (req, res) => {
-  const select = 'id name lastname email src'
+  const select = '_id name lastname email src'
   const user = req.user as any
   const response = await WorkspaceModel.find({
     $or: [{ contributors: user._id, author: user._id }],
@@ -23,7 +23,7 @@ router.get('/workspaces', async (req, res) => {
 })
 
 router.post('/workspaces', async (req, res, next) => {
-  const select = 'id name lastname email src'
+  const select = '_id name lastname email src'
   const user = req.user as any
   const newWorkspace = new WorkspaceModel({
     ...req.body,

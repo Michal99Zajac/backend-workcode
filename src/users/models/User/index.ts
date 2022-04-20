@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-interface */
 import {
   getModelForClass,
   modelOptions,
@@ -8,17 +9,18 @@ import {
   Ref,
 } from '@typegoose/typegoose'
 import validator from 'validator'
-import { v4 } from 'uuid'
 import bcrypt from 'bcrypt'
+import { TimeStamps, Base } from '@typegoose/typegoose/lib/defaultClasses'
 
 import { config } from '@config'
-import { RoleClass } from '@users/models/Role'
+import { Role } from '@users/models/Role'
 
 const { SALT_ROUNDS } = config
 
-@pre<UserClass>('save', async function () {
+export interface User extends Base {}
+
+@pre<User>('save', async function () {
   const hash = await bcrypt.hash(this.password, SALT_ROUNDS)
-  this.id = v4()
   this.password = hash
 })
 @modelOptions({
@@ -27,14 +29,7 @@ const { SALT_ROUNDS } = config
     timestamps: true,
   },
 })
-export class UserClass {
-  @prop({
-    type: () => String,
-    unique: true,
-    immutable: true,
-  })
-  public id: string
-
+export class User extends TimeStamps {
   @prop({
     type: () => String,
     required: [true, 'Name is required'],
@@ -78,21 +73,21 @@ export class UserClass {
 
   @prop(
     {
-      ref: () => RoleClass,
+      ref: () => Role,
     },
     PropType.ARRAY
   )
-  public roles: Ref<RoleClass>[]
+  public roles: Ref<Role>[]
 
   // instance methods
-  public async checkPassword(this: DocumentType<UserClass>, password: string) {
+  public async checkPassword(this: DocumentType<User>, password: string) {
     return bcrypt.compare(password, this.password)
   }
 
   // virtuals
   public get public() {
     return {
-      id: this.id,
+      _id: this._id,
       name: this.name,
       lastname: this.lastname,
       src: this.src,
@@ -102,20 +97,18 @@ export class UserClass {
 
   public get publicWithRoles() {
     return {
-      id: this.id,
+      _id: this._id,
       name: this.name,
       lastname: this.lastname,
       src: this.src,
       email: this.email,
-      roles: this.roles.map((role: RoleClass) =>
-        role.value ? role.value : role
-      ),
+      roles: this.roles.map((role: Role) => (role.value ? role.value : role)),
     }
   }
 
   // static functions
 }
 
-export const User = getModelForClass(UserClass)
+export const UserModel = getModelForClass(User)
 
-export default User
+export default UserModel

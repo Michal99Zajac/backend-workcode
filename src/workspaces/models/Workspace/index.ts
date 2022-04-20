@@ -1,19 +1,16 @@
 import {
   getModelForClass,
   modelOptions,
-  pre,
   prop,
   PropType,
   Ref,
 } from '@typegoose/typegoose'
-import { v4 } from 'uuid'
-import { TimeStamps } from '@typegoose/typegoose/lib/defaultClasses'
+import { TimeStamps, Base } from '@typegoose/typegoose/lib/defaultClasses'
 
-import { UserClass } from '@users/models/User'
+import { User } from '@users/models/User'
 
-@pre<Workspace>('save', async function () {
-  this.id = v4()
-})
+export interface Workspace extends Base {}
+
 @modelOptions({
   schemaOptions: {
     collection: 'Workspaces',
@@ -22,18 +19,11 @@ import { UserClass } from '@users/models/User'
 })
 export class Workspace extends TimeStamps {
   @prop({
-    type: () => String,
-    unique: true,
-    immutable: true,
-  })
-  public id: string
-
-  @prop({
-    ref: () => UserClass,
+    ref: () => User,
     required: true,
     immutable: true,
   })
-  public author: Ref<UserClass>
+  public author: Ref<User>
 
   @prop({
     type: () => String,
@@ -51,19 +41,19 @@ export class Workspace extends TimeStamps {
 
   @prop(
     {
-      ref: () => UserClass,
+      ref: () => User,
       default: [],
     },
     PropType.ARRAY
   )
-  public contributors: Ref<UserClass>[]
+  public contributors: Ref<User>[]
 
   // instance methods
 
   // virtuals
   public get public() {
     return {
-      id: this.id,
+      _id: this._id,
       name: this.name,
       code: this.code,
       createdAt: this.createdAt,
