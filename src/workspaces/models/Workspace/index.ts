@@ -2,7 +2,6 @@ import {
   getModelForClass,
   modelOptions,
   pre,
-  queryMethod,
   prop,
   PropType,
   Ref,
@@ -11,17 +10,10 @@ import { v4 } from 'uuid'
 import { TimeStamps } from '@typegoose/typegoose/lib/defaultClasses'
 
 import { UserClass } from '@users/models/User'
-import {
-  QueryHelpers,
-  findMy,
-  publicPopulate,
-} from '@workspaces/queries/workspace'
 
 @pre<Workspace>('save', async function () {
   this.id = v4()
 })
-@queryMethod(findMy)
-@queryMethod(publicPopulate)
 @modelOptions({
   schemaOptions: {
     collection: 'Workspaces',
@@ -83,8 +75,6 @@ export class Workspace extends TimeStamps {
   // static functions
 }
 
-export const WorkspaceModel = getModelForClass<typeof Workspace, QueryHelpers>(
-  Workspace
-)
+export const WorkspaceModel = getModelForClass<typeof Workspace>(Workspace)
 
 export default WorkspaceModel

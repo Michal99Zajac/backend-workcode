@@ -2,7 +2,7 @@ import { Router } from 'express'
 import passport from 'passport'
 import { UnprocessableEntity } from 'http-errors'
 
-import { WorkspaceModel, Workspace } from '@workspaces/models/Workspace'
+import { WorkspaceModel } from '@workspaces/models/Workspace'
 import { prettyError } from '@root/common/utils'
 
 export const router = Router()
@@ -10,15 +10,20 @@ export const router = Router()
 router.use(passport.authenticate('jwt', { session: false }))
 
 router.get('/workspaces', async (req, res) => {
+  const select = 'id name lastname email src'
   const user = req.user as any
-  const workspaces = (await WorkspaceModel.find()
-    .findMy(user._id)
-    .publicPopulate()) as Workspace[]
+  const response = await WorkspaceModel.find({
+    $or: [{ contributors: user._id, author: user._id }],
+  })
+    .populate('author', select)
+    .populate('contributors', select)
+    .then((workspaces) => workspaces.map((workspace) => workspace.public))
 
-  res.json(workspaces.map((workspace) => workspace.public))
+  res.json(response)
 })
 
 router.post('/workspaces', async (req, res, next) => {
+  const select = 'id name lastname email src'
   const user = req.user as any
   const newWorkspace = new WorkspaceModel({
     ...req.body,
@@ -27,9 +32,9 @@ router.post('/workspaces', async (req, res, next) => {
   })
 
   try {
-    const workspace = await newWorkspace
-      .save()
-      .then((result) => result.populate('author contributors'))
+    const workspace = await (await newWorkspace.save())
+      .populate('author', select)
+      .then((result) => result.populate('contributors', select))
 
     res.status(201).json(workspace.public)
   } catch (error) {
