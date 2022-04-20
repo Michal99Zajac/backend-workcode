@@ -13,11 +13,7 @@ router.post('/auth/signup', async (req, res, next) => {
     const user = await new UserModel({
       ...req.body,
       roles: roles.map((role) => role._id),
-    })
-      .save()
-      .then((result) => {
-        return result.populate('roles')
-      })
+    }).save()
 
     res.status(201).json(user.publicWithRoles)
   } catch (error) {

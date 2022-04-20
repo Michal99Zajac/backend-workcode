@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-interface */
 import {
   getModelForClass,
   modelOptions,
@@ -7,7 +6,9 @@ import {
   prop,
   PropType,
   Ref,
+  plugin,
 } from '@typegoose/typegoose'
+import autopopulate from 'mongoose-autopopulate'
 import validator from 'validator'
 import bcrypt from 'bcrypt'
 import { TimeStamps, Base } from '@typegoose/typegoose/lib/defaultClasses'
@@ -19,6 +20,7 @@ const { SALT_ROUNDS } = config
 
 export interface User extends Base {}
 
+@plugin(autopopulate)
 @pre<User>('save', async function () {
   const hash = await bcrypt.hash(this.password, SALT_ROUNDS)
   this.password = hash
@@ -74,6 +76,7 @@ export class User extends TimeStamps {
   @prop(
     {
       ref: () => Role,
+      autopopulate: true,
     },
     PropType.ARRAY
   )
@@ -102,7 +105,7 @@ export class User extends TimeStamps {
       lastname: this.lastname,
       src: this.src,
       email: this.email,
-      roles: this.roles.map((role: Role) => (role.value ? role.value : role)),
+      roles: this.roles,
     }
   }
 

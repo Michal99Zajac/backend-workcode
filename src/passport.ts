@@ -18,7 +18,7 @@ passport.use(
     { usernameField: 'email', passwordField: 'password' },
     async (email, password, done) => {
       // check email and get user
-      const user = await UserModel.findOne({ email: email }).populate('roles')
+      const user = await UserModel.findOne({ email: email })
       if (!user) {
         return done({ email: i18next.t('auth.incorrect.email') })
       }
@@ -44,7 +44,7 @@ passport.use(
     async (payload, done) => {
       const _id = payload._id as string
 
-      const user = await UserModel.findOne({ _id: _id }).populate('roles')
+      const user = await UserModel.findOne({ _id: _id })
 
       if (user) return done(null, user)
 

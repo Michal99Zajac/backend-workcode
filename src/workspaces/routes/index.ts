@@ -10,20 +10,19 @@ export const router = Router()
 router.use(passport.authenticate('jwt', { session: false }))
 
 router.get('/workspaces', async (req, res) => {
-  const select = '_id name lastname email src'
   const user = req.user as any
-  const response = await WorkspaceModel.find({
+  const workspaces = await WorkspaceModel.find({
     $or: [{ contributors: user._id, author: user._id }],
-  })
-    .populate('author', select)
-    .populate('contributors', select)
-    .then((workspaces) => workspaces.map((workspace) => workspace.public))
+  }).transform((workspaceArray) =>
+    workspaceArray.map((workspace) => workspace.public)
+  )
 
-  res.json(response)
+  //.then((workspaces) => workspaces.map((workspace) => workspace.public))
+
+  res.json(workspaces)
 })
 
 router.post('/workspaces', async (req, res, next) => {
-  const select = '_id name lastname email src'
   const user = req.user as any
   const newWorkspace = new WorkspaceModel({
     ...req.body,
@@ -32,9 +31,7 @@ router.post('/workspaces', async (req, res, next) => {
   })
 
   try {
-    const workspace = await (await newWorkspace.save())
-      .populate('author', select)
-      .then((result) => result.populate('contributors', select))
+    const workspace = await newWorkspace.save()
 
     res.status(201).json(workspace.public)
   } catch (error) {

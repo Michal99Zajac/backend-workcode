@@ -15,7 +15,7 @@ router.post('/auth/signin', async (req, res, next) => {
   passport.authenticate(
     'local',
     { session: false },
-    (error, user: DocumentType<User>, info) => {
+    (error, user: User, info) => {
       if (error) return next(new Unauthorized(error))
 
       const token = jwt.sign({ _id: user._id }, JWT_SECRET)

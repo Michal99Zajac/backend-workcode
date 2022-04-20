@@ -4,13 +4,16 @@ import {
   prop,
   PropType,
   Ref,
+  plugin,
 } from '@typegoose/typegoose'
+import autopopulate from 'mongoose-autopopulate'
 import { TimeStamps, Base } from '@typegoose/typegoose/lib/defaultClasses'
 
 import { User } from '@users/models/User'
 
 export interface Workspace extends Base {}
 
+@plugin(autopopulate)
 @modelOptions({
   schemaOptions: {
     collection: 'Workspaces',
@@ -22,6 +25,7 @@ export class Workspace extends TimeStamps {
     ref: () => User,
     required: true,
     immutable: true,
+    autopopulate: true,
   })
   public author: Ref<User>
 
@@ -43,6 +47,7 @@ export class Workspace extends TimeStamps {
     {
       ref: () => User,
       default: [],
+      autopopulate: true,
     },
     PropType.ARRAY
   )
