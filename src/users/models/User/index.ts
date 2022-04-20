@@ -11,14 +11,14 @@ import {
 import autopopulate from 'mongoose-autopopulate'
 import validator from 'validator'
 import bcrypt from 'bcrypt'
-import { TimeStamps, Base } from '@typegoose/typegoose/lib/defaultClasses'
 
 import { config } from '@config'
 import { Role } from '@users/models/Role'
+import { BaseSchema } from '@root/types'
 
 const { SALT_ROUNDS } = config
 
-export interface User extends Base {}
+// export interface User extends Base {}
 
 @plugin(autopopulate)
 @pre<User>('save', async function () {
@@ -31,7 +31,7 @@ export interface User extends Base {}
     timestamps: true,
   },
 })
-export class User extends TimeStamps {
+export class User extends BaseSchema {
   @prop({
     type: () => String,
     required: [true, 'Name is required'],
@@ -99,13 +99,15 @@ export class User extends TimeStamps {
   }
 
   public get publicWithRoles() {
+    const roles = (this.roles as Role[]).map((role) => role.public)
+
     return {
       _id: this._id,
       name: this.name,
       lastname: this.lastname,
       src: this.src,
       email: this.email,
-      roles: this.roles,
+      roles: roles,
     }
   }
 

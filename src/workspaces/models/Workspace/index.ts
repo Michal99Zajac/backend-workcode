@@ -7,11 +7,9 @@ import {
   plugin,
 } from '@typegoose/typegoose'
 import autopopulate from 'mongoose-autopopulate'
-import { TimeStamps, Base } from '@typegoose/typegoose/lib/defaultClasses'
 
+import { BaseSchema } from '@root/types'
 import { User } from '@users/models/User'
-
-export interface Workspace extends Base {}
 
 @plugin(autopopulate)
 @modelOptions({
@@ -20,7 +18,7 @@ export interface Workspace extends Base {}
     timestamps: true,
   },
 })
-export class Workspace extends TimeStamps {
+export class Workspace extends BaseSchema {
   @prop({
     ref: () => User,
     required: true,
@@ -57,13 +55,18 @@ export class Workspace extends TimeStamps {
 
   // virtuals
   public get public() {
+    const author = (this.author as User).public
+    const contributors = (this.contributors as User[]).map(
+      (contributor) => contributor.public
+    )
+
     return {
       _id: this._id,
       name: this.name,
       code: this.code,
       createdAt: this.createdAt,
-      author: this.author,
-      contributors: this.contributors,
+      author: author,
+      contributors: contributors,
     }
   }
 

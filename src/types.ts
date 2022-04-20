@@ -1,6 +1,5 @@
-import { types } from '@typegoose/typegoose'
-
-import { Workspace } from '@workspaces/models'
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Base, TimeStamps } from '@typegoose/typegoose/lib/defaultClasses'
 
 export type WorkcodeError = {
   key: string
@@ -9,5 +8,8 @@ export type WorkcodeError = {
 
 export type WorkcodeErrors = WorkcodeError[]
 
-export type QueryHelperType<T, QH> = Promise<types.DocumentType<T>> &
-  types.QueryHelperThis<typeof Workspace, QH>
+export interface BaseSchema<T = any> extends Base {}
+
+export abstract class BaseSchema<T> extends TimeStamps {
+  abstract get public(): Partial<T>
+}

@@ -1,5 +1,4 @@
 import { Router } from 'express'
-import { DocumentType } from '@typegoose/typegoose'
 import { Unauthorized } from 'http-errors'
 import passport from 'passport'
 import jwt from 'jsonwebtoken'
