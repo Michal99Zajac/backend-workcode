@@ -7,6 +7,7 @@ import {
   PropType,
   Ref,
   plugin,
+  ReturnModelType,
 } from '@typegoose/typegoose'
 import autopopulate from 'mongoose-autopopulate'
 import validator from 'validator'
@@ -112,6 +113,30 @@ export class User extends BaseSchema {
   }
 
   // static functions
+  public static async matchedFullname(
+    this: ReturnModelType<typeof User>,
+    fullname?: string
+  ) {
+    if (!fullname) return undefined
+
+    return this.aggregate([
+      {
+        $addFields: {
+          fullname: {
+            $concat: ['$name', ' ', '$lastname'],
+          },
+        },
+      },
+      {
+        $match: {
+          fullname: {
+            $regex: /e/,
+            $options: 'i',
+          },
+        },
+      },
+    ]).then((owners) => owners.map((owner) => owner._id))
+  }
 }
 
 export const UserModel = getModelForClass(User)
