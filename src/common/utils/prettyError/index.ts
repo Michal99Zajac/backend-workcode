@@ -1,4 +1,5 @@
 export const prettyError = (error: any) => {
+  // mongoose validation
   if (error.name === 'ValidationError') {
     const records: Record<string, string> = {}
 
@@ -10,6 +11,7 @@ export const prettyError = (error: any) => {
     return records
   }
 
+  // unique value in the database
   if (error.code === 11000) {
     const records: Record<string, string> = {}
 
