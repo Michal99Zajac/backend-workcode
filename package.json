@@ -3,6 +3,7 @@
     "email": "michal.99.zajac@gmail.com",
     "name": "Michal Zajac"
   },
+  "license": "MIT",
   "types": "./src/index.d.ts",
   "dependencies": {
     "@typegoose/typegoose": "^9.7.1",
