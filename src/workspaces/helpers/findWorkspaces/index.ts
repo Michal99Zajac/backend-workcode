@@ -9,7 +9,7 @@ export interface workspacesQuery {
 }
 
 export const findWorkspaces = async (query: workspacesQuery, current: User) => {
-  const ownerPromise = UserModel.matchedFullname(query.owner)
+  const __owner = UserModel.matchedFullname(query.owner)
 
   let workspaces = WorkspaceModel.find({
     $or: [{ contributors: current._id }, { author: current._id }],
@@ -27,7 +27,7 @@ export const findWorkspaces = async (query: workspacesQuery, current: User) => {
     })
   }
 
-  const owners = await ownerPromise
+  const owners = await __owner
   if (owners) {
     workspaces = workspaces.find({ author: { $in: owners } })
   }
