@@ -1,24 +1,23 @@
 import { Router } from 'express'
-import { Forbidden, BadRequest } from 'http-errors'
+import { BadRequest } from 'http-errors'
 
 import { WorkspaceModel, Workspace } from '@workspaces/models'
-import { workspaceGuard } from '@workspaces/middlewares'
-import { WorkspaceRole } from '@workspaces/utils'
+import { workspaceGuard, workspaceAuthorGuard } from '@workspaces/middlewares'
 import { prettyError } from '@common/utils'
 
+import contributorsRouter from './contributors'
+
 export const router = Router()
+
+router.use(contributorsRouter)
 
 router.get('/workspaces/:_id', workspaceGuard, async (req, res) => {
   res.json(res.locals.workspace.public)
 })
 
-router.patch('/workspaces/:_id', workspaceGuard, async (req, res, next) => {
+router.patch('/workspaces/:_id', workspaceGuard, workspaceAuthorGuard, async (req, res, next) => {
   const update = req.body
   const workspace = res.locals.workspace as Workspace
-  const roles = res.locals.workspaceRoles as WorkspaceRole[]
-
-  if (!roles.includes(WorkspaceRole.AUTHOR))
-    return next(new Forbidden('user is not owner of the workspace'))
 
   try {
     await WorkspaceModel.updateOne(
@@ -35,12 +34,8 @@ router.patch('/workspaces/:_id', workspaceGuard, async (req, res, next) => {
   res.json(updatedWorkspace.public)
 })
 
-router.delete('/workspaces/:_id', workspaceGuard, async (req, res, next) => {
+router.delete('/workspaces/:_id', workspaceGuard, workspaceAuthorGuard, async (req, res) => {
   const workspace = res.locals.workspace as Workspace
-  const roles = res.locals.workspaceRoles as WorkspaceRole[]
-
-  if (!roles.includes(WorkspaceRole.AUTHOR))
-    return next(new Forbidden('user is not owner of the workspace'))
 
   await WorkspaceModel.deleteOne({ _id: workspace._id })
 
