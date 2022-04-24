@@ -100,7 +100,7 @@ export class User extends BaseSchema {
   }
 
   public get publicWithRoles() {
-    const roles = (this.roles as Role[]).map((role) => role.public)
+    const roles = (this.roles as Role[]).map((role) => (role.public ? role.public : role))
 
     return {
       _id: this._id,

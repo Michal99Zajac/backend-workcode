@@ -48,15 +48,17 @@ export class Workspace extends BaseSchema {
 
   // virtuals
   public get public() {
-    const author = (this.author as User).public
-    const contributors = (this.contributors as User[]).map((contributor) => contributor.public)
+    const author = this.author as User
+    const contributors = (this.contributors as User[]).map((contributor) =>
+      contributor.public ? contributor.public : contributor
+    )
 
     return {
       _id: this._id,
       name: this.name,
       code: this.code,
       createdAt: this.createdAt,
-      author: author,
+      author: author.public ? author.public : author,
       contributors: contributors,
     }
   }

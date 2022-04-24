@@ -38,10 +38,13 @@ export class Invitation extends BaseSchema {
 
   // virtuals
   public get public() {
+    const workspace = this.workspace as Workspace
+    const guest = this.guest as User
+
     return {
       _id: this._id,
-      guest: this.guest,
-      workspace: this.workspace,
+      guest: guest.public ? guest.public : guest,
+      workspace: workspace.public ? workspace.public : workspace,
       createdAt: this.createdAt,
     }
   }

@@ -5,7 +5,11 @@ import { UserModel, User } from '@users/models/User'
 import { prettyError } from '@common/utils'
 import { encryptPassword } from '@users/utils'
 
+import invitationsRouter from './invitations'
+
 export const router = Router()
+
+router.use(invitationsRouter)
 
 router.get('/users/me', (req, res) => {
   const user = req.user as User
