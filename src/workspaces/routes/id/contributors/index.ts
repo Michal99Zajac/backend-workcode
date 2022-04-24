@@ -1,5 +1,6 @@
 import { Router } from 'express'
 
+import { InvitationModel } from '@workspaces/models'
 import { workspaceAuthorGuard, workspaceGuard } from '@workspaces/middlewares'
 
 export const router = Router()

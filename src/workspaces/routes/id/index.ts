@@ -6,10 +6,11 @@ import { workspaceGuard, workspaceAuthorGuard } from '@workspaces/middlewares'
 import { prettyError } from '@common/utils'
 
 import contributorsRouter from './contributors'
+import inviteRouter from './invite'
 
 export const router = Router()
 
-router.use(contributorsRouter)
+router.use(contributorsRouter, inviteRouter)
 
 router.get('/workspaces/:_id', workspaceGuard, async (req, res) => {
   res.json(res.locals.workspace.public)
