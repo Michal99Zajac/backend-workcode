@@ -15,10 +15,7 @@ router.post('/auth/forgot-password', async (req, res, next) => {
   const email = req.body.email
   const user = await UserModel.findOne({ email: email })
 
-  if (!user)
-    return next(
-      new BadRequest({ email: 'user with that email doesnt exist' } as any)
-    )
+  if (!user) return next(new BadRequest({ email: 'user with that email doesnt exist' } as any))
 
   const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '15m' })
 

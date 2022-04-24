@@ -47,8 +47,7 @@ router.delete('/users/me', async (req, res, next) => {
   const user = await UserModel.findOne({ _id: _id })
 
   const isCorrect = await user.checkPassword(password)
-  if (!isCorrect)
-    return next(new BadRequest({ password: 'password is incorrect' } as any))
+  if (!isCorrect) return next(new BadRequest({ password: 'password is incorrect' } as any))
 
   try {
     await UserModel.deleteOne({ _id: user._id })
