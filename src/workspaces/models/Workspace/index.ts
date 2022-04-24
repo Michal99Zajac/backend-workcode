@@ -1,11 +1,4 @@
-import {
-  getModelForClass,
-  modelOptions,
-  prop,
-  PropType,
-  Ref,
-  plugin,
-} from '@typegoose/typegoose'
+import { getModelForClass, modelOptions, prop, PropType, Ref, plugin } from '@typegoose/typegoose'
 import autopopulate from 'mongoose-autopopulate'
 
 import { BaseSchema } from '@root/types'
@@ -56,9 +49,7 @@ export class Workspace extends BaseSchema {
   // virtuals
   public get public() {
     const author = (this.author as User).public
-    const contributors = (this.contributors as User[]).map(
-      (contributor) => contributor.public
-    )
+    const contributors = (this.contributors as User[]).map((contributor) => contributor.public)
 
     return {
       _id: this._id,

@@ -36,8 +36,6 @@ export const config = {
 }
 
 // calculated after declaration
-config[
-  'MONGO_URL'
-] = `mongodb://${config.MONGO_HOST}:${config.MONGO_PORT}/${config.MONGO_DB}`
+config['MONGO_URL'] = `mongodb://${config.MONGO_HOST}:${config.MONGO_PORT}/${config.MONGO_DB}`
 
 export default config

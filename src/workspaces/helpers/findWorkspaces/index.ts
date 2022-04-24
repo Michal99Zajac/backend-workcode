@@ -36,7 +36,5 @@ export const findWorkspaces = async (query: workspacesQuery, current: User) => {
     workspaces = workspaces.find({ author: current._id })
   }
 
-  return workspaces.transform((workspaces) =>
-    workspaces.map((workspace) => workspace.public)
-  )
+  return workspaces.transform((workspaces) => workspaces.map((workspace) => workspace.public))
 }

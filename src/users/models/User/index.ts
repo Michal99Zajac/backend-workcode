@@ -113,10 +113,7 @@ export class User extends BaseSchema {
   }
 
   // static functions
-  public static async matchedFullname(
-    this: ReturnModelType<typeof User>,
-    fullname?: string
-  ) {
+  public static async matchedFullname(this: ReturnModelType<typeof User>, fullname?: string) {
     if (!fullname) return undefined
 
     return this.aggregate([

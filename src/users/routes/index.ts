@@ -8,11 +8,7 @@ import userIdRouter from './id'
 
 export const router = Router({})
 
-router.use(
-  passport.authenticate('jwt', { session: false }),
-  userMeRouter,
-  userIdRouter
-)
+router.use(passport.authenticate('jwt', { session: false }), userMeRouter, userIdRouter)
 
 router.get('/users', async (req, res) => {
   const query = req.query.query as string | undefined
