@@ -35,4 +35,18 @@ router.patch('/workspaces/:_id', workspaceGuard, async (req, res, next) => {
   res.json(updatedWorkspace.public)
 })
 
+router.delete('/workspaces/:_id', workspaceGuard, async (req, res, next) => {
+  const workspace = res.locals.workspace as Workspace
+  const roles = res.locals.workspaceRoles as WorkspaceRole[]
+
+  if (!roles.includes(WorkspaceRole.AUTHOR))
+    return next(new Forbidden('user is not owner of the workspace'))
+
+  await WorkspaceModel.deleteOne({ _id: workspace._id })
+
+  res.json({
+    message: `Workspace '${workspace.name}' has been deleted`,
+  })
+})
+
 export default router
