@@ -8,12 +8,13 @@ import { prettyError } from '@root/common/utils'
 import { findWorkspaces } from '@workspaces/helpers'
 
 import idRouter from './id'
+import inviteRouter from './invite'
 
 export const router = Router()
 
 router.use(passport.authenticate('jwt', { session: false }))
 
-router.use(idRouter)
+router.use(idRouter, inviteRouter)
 
 router.get('/workspaces', async (req, res) => {
   const user = req.user as User

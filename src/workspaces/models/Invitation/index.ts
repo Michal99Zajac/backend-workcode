@@ -34,14 +34,6 @@ export class Invitation extends BaseSchema {
   })
   public key: string
 
-  @prop({
-    type: () => String,
-    enum: ['ACCEPTED', 'DECLINE', 'PENDING'],
-    required: true,
-    default: 'PENDING',
-  })
-  public status: string
-
   // instance methods
 
   // virtuals
@@ -50,7 +42,6 @@ export class Invitation extends BaseSchema {
       _id: this._id,
       guest: this.guest,
       workspace: this.workspace,
-      status: this.status,
       createdAt: this.createdAt,
     }
   }

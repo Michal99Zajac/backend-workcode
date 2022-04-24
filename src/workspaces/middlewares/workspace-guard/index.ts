@@ -25,7 +25,8 @@ export const workspaceGuard = async (req: Request, res: Response, next: NextFunc
       $or: [{ author: user._id }, { contributors: user._id }],
     })
 
-    if (!workspace) throw new Forbidden('user is not part of the workspace')
+    if (!workspace)
+      throw new Forbidden("user is not part of the workspace or workspace doesn't exist")
   } catch (error) {
     return next(error)
   }
