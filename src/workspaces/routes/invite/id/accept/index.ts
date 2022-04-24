@@ -19,6 +19,8 @@ router.post(
     // start transaction
     const workspaceSession = await WorkspaceModel.startSession()
     workspaceSession.startTransaction()
+    const invitationSession = await InvitationModel.startSession()
+    invitationSession.startTransaction()
 
     try {
       await InvitationModel.deleteOne({ _id: invitation._id })
@@ -30,14 +32,17 @@ router.post(
 
       // commit transaction
       workspaceSession.commitTransaction()
+      invitationSession.commitTransaction()
     } catch (error) {
       // abort transaction
       await workspaceSession.abortTransaction()
+      await invitationSession.abortTransaction()
       return next(new BadRequest(prettyError(error)))
     }
 
-    // end transaction
+    // end sessions
     workspaceSession.endSession()
+    invitationSession.endSession()
 
     const updatedWorkspace = await WorkspaceModel.findById(workspace._id)
 
