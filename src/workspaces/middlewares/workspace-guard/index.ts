@@ -9,7 +9,7 @@ import { Workspace, WorkspaceModel } from '@workspaces/models'
 export const workspaceGuard = async (req: Request, res: Response, next: NextFunction) => {
   if (!req.user) return next(new Forbidden('user is not logged'))
 
-  if (!req.params._id) return next(new Forbidden('id is provided'))
+  if (!req.params._id) return next(new Forbidden('id is not provided'))
 
   if (!mongoose.isValidObjectId(req.params._id))
     return next(new UnprocessableEntity('id is not valid'))
