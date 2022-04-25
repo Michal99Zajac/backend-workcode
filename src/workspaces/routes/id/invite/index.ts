@@ -9,7 +9,7 @@ import { prettyError } from '@common/utils'
 export const router = Router()
 
 router.post(
-  '/workspaces/:_id/invite',
+  '/workspaces/:workspaceId/invite',
   workspaceGuard,
   workspaceAuthorGuard,
   async (req, res, next) => {

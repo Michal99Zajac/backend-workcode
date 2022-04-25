@@ -1,12 +1,11 @@
 import { Router } from 'express'
 
-import { InvitationModel } from '@workspaces/models'
 import { workspaceAuthorGuard, workspaceGuard } from '@workspaces/middlewares'
 
 export const router = Router()
 
 router.post(
-  '/workspaces/:_id/contributors',
+  '/workspaces/:workspaceId/contributors',
   workspaceGuard,
   workspaceAuthorGuard,
   async (req, res) => {

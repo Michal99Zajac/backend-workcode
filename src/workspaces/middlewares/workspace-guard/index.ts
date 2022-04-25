@@ -9,14 +9,14 @@ import { Workspace, WorkspaceModel } from '@workspaces/models'
 export const workspaceGuard = async (req: Request, res: Response, next: NextFunction) => {
   if (!req.user) return next(new Forbidden('user is not logged'))
 
-  if (!req.params._id) return next(new Forbidden('id is not provided'))
+  if (!req.params.workspaceId) return next(new Forbidden('id is not provided'))
 
-  if (!mongoose.isValidObjectId(req.params._id))
+  if (!mongoose.isValidObjectId(req.params.workspaceId))
     return next(new UnprocessableEntity('id is not valid'))
 
   // declare variables
   let workspace: DocumentType<Workspace> | null = null
-  const workspaceId = req.params._id
+  const workspaceId = req.params.workspaceId
   const user = req.user as User
 
   // get workspace by _id
