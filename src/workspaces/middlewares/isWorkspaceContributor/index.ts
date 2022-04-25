@@ -8,7 +8,7 @@ import { WorkspaceRole } from '@workspaces/utils'
  *
  * important: middleware has to run after canCatchWorkspace middleware
  */
-export const canLeave = (req: Request, res: Response, next: NextFunction) => {
+export const isWorkspaceContributor = (req: Request, res: Response, next: NextFunction) => {
   if (!res.locals.workspaceRoles) throw new Error('canLeave require canCatchWorkspace earlier exec')
 
   const roles = res.locals.workspaceRoles as WorkspaceRole[]
@@ -19,4 +19,4 @@ export const canLeave = (req: Request, res: Response, next: NextFunction) => {
   next()
 }
 
-export default canLeave
+export default isWorkspaceContributor

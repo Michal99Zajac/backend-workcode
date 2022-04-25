@@ -3,15 +3,15 @@ import { BadRequest } from 'http-errors'
 
 import { InvitationModel, Workspace } from '@workspaces/models'
 import { UserModel, User } from '@users/models'
-import { workspaceAuthorGuard, workspaceGuard } from '@workspaces/middlewares'
+import { isWorkspaceAuthor, canCatchWorkspace } from '@workspaces/middlewares'
 import { prettyError } from '@common/utils'
 
 export const router = Router()
 
 router.post(
   '/workspaces/:workspaceId/invite',
-  workspaceGuard,
-  workspaceAuthorGuard,
+  canCatchWorkspace,
+  isWorkspaceAuthor,
   async (req, res, next) => {
     const guestId = req.body._id as string
     const workspace = res.locals.workspace as Workspace

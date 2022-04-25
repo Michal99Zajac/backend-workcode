@@ -3,7 +3,7 @@ import { Forbidden } from 'http-errors'
 
 import { WorkspaceRole } from '@workspaces/utils'
 
-export const workspaceAuthorGuard = (req: Request, res: Response, next: NextFunction) => {
+export const isWorkspaceAuthor = (req: Request, res: Response, next: NextFunction) => {
   if (!res.locals.workspaceRoles)
     throw new Error('workspaceAuthorGuard require workspaceGuard earlier')
 
@@ -15,4 +15,4 @@ export const workspaceAuthorGuard = (req: Request, res: Response, next: NextFunc
   next()
 }
 
-export default workspaceAuthorGuard
+export default isWorkspaceAuthor

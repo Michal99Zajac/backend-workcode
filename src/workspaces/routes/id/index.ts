@@ -2,7 +2,7 @@ import { Router } from 'express'
 import { BadRequest } from 'http-errors'
 
 import { WorkspaceModel, Workspace } from '@workspaces/models'
-import { workspaceGuard, workspaceAuthorGuard } from '@workspaces/middlewares'
+import { canCatchWorkspace, isWorkspaceAuthor } from '@workspaces/middlewares'
 import { prettyError } from '@common/utils'
 
 import contributorsRouter from './contributors'
@@ -13,14 +13,14 @@ export const router = Router()
 
 router.use(contributorsRouter, inviteRouter, leaveRouter)
 
-router.get('/workspaces/:workspaceId', workspaceGuard, async (req, res) => {
+router.get('/workspaces/:workspaceId', canCatchWorkspace, async (req, res) => {
   res.json(res.locals.workspace.public)
 })
 
 router.patch(
   '/workspaces/:workspaceId',
-  workspaceGuard,
-  workspaceAuthorGuard,
+  canCatchWorkspace,
+  isWorkspaceAuthor,
   async (req, res, next) => {
     const update = req.body
     const workspace = res.locals.workspace as Workspace
@@ -43,8 +43,8 @@ router.patch(
 
 router.delete(
   '/workspaces/:workspaceId',
-  workspaceGuard,
-  workspaceAuthorGuard,
+  canCatchWorkspace,
+  isWorkspaceAuthor,
   async (req, res) => {
     const workspace = res.locals.workspace as Workspace
 

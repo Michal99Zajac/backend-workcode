@@ -1,6 +1,6 @@
 import { Router } from 'express'
 
-import { invitationAccessGuard } from '@workspaces/middlewares'
+import { canSeeInvitation } from '@workspaces/middlewares'
 import { Invitation } from '@workspaces/models'
 
 import acceptRouter from './accept'
@@ -10,7 +10,7 @@ export const router = Router()
 
 router.use(acceptRouter, declineRouter)
 
-router.get('/workspaces/invite/:invitationId', invitationAccessGuard, (req, res) => {
+router.get('/workspaces/invite/:invitationId', canSeeInvitation, (req, res) => {
   const invitation = res.locals.invitation as Invitation
 
   res.json(invitation.public)

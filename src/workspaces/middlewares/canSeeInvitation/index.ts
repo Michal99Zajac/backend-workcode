@@ -5,7 +5,7 @@ import mongoose from 'mongoose'
 import { InvitationModel } from '@workspaces/models'
 import { User } from '@users/models'
 
-export const invitationAccessGuard = async (req: Request, res: Response, next: NextFunction) => {
+export const canSeeInvitation = async (req: Request, res: Response, next: NextFunction) => {
   const user = req.user as User
   const invitationId = req.params.invitationId
 
@@ -23,4 +23,4 @@ export const invitationAccessGuard = async (req: Request, res: Response, next: N
   next()
 }
 
-export default invitationAccessGuard
+export default canSeeInvitation

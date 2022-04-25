@@ -6,7 +6,7 @@ import { setWorkspaceRoles } from '@workspaces/utils'
 import { User } from '@users/models'
 import { Workspace, WorkspaceModel } from '@workspaces/models'
 
-export const workspaceGuard = async (req: Request, res: Response, next: NextFunction) => {
+export const canCatchWorkspace = async (req: Request, res: Response, next: NextFunction) => {
   if (!req.user) return next(new Forbidden('user is not logged'))
 
   if (!req.params.workspaceId) return next(new Forbidden('id is not provided'))
@@ -38,4 +38,4 @@ export const workspaceGuard = async (req: Request, res: Response, next: NextFunc
   next()
 }
 
-export default workspaceGuard
+export default canCatchWorkspace
