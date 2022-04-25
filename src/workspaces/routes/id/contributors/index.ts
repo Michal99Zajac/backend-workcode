@@ -1,16 +1,14 @@
 import { Router } from 'express'
 
-import { isWorkspaceAuthor, canCatchWorkspace } from '@workspaces/middlewares'
+import { Workspace } from '@workspaces/models'
+import { canCatchWorkspace } from '@workspaces/middlewares'
 
 export const router = Router()
 
-router.post(
-  '/workspaces/:workspaceId/contributors',
-  canCatchWorkspace,
-  isWorkspaceAuthor,
-  async (req, res) => {
-    res.json(res.locals.workspace.public)
-  }
-)
+router.get('/workspaces/:workspaceId/contributors', canCatchWorkspace, async (req, res) => {
+  const workspace = res.locals.workspace as Workspace
+
+  res.json(workspace.public.contributors)
+})
 
 export default router
