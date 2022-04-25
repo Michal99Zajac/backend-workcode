@@ -1,11 +1,13 @@
 import { prop, getModelForClass, modelOptions } from '@typegoose/typegoose'
 
+import { BaseSchema } from '@root/types'
+
 @modelOptions({
   schemaOptions: {
     collection: 'Roles',
   },
 })
-export class RoleClass {
+export class Role extends BaseSchema<string> {
   @prop({
     type: () => String,
     required: true,
@@ -13,6 +15,12 @@ export class RoleClass {
     enum: ['USER', 'ADMIN'],
   })
   public value: string
+
+  public get public() {
+    return this.value
+  }
 }
 
-export const Role = getModelForClass(RoleClass)
+export const RoleModel = getModelForClass(Role)
+
+export default RoleModel

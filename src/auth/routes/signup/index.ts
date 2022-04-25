@@ -1,23 +1,19 @@
 import { Router } from 'express'
 import { BadRequest } from 'http-errors'
 
-import { User, Role } from '@users/models'
+import { UserModel, RoleModel } from '@users/models'
 import { prettyError } from '@common/utils'
 
 export const router = Router()
 
 router.post('/auth/signup', async (req, res, next) => {
   try {
-    const roles = await Role.find({ value: 'USER' })
+    const roles = await RoleModel.find({ value: 'USER' })
 
-    const user = await new User({
+    const user = await new UserModel({
       ...req.body,
       roles: roles.map((role) => role._id),
-    })
-      .save()
-      .then((result) => {
-        return result.populate('roles')
-      })
+    }).save()
 
     res.status(201).json(user.publicWithRoles)
   } catch (error) {

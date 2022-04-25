@@ -6,7 +6,7 @@ import morgan from 'morgan'
 
 import userRouter from '@users/routes'
 import { router as authRouter } from '@auth/routes'
-import { router as workspaceRouter } from '@workspace/routes'
+import { router as workspaceRouter } from '@workspaces/routes'
 import { errorHandler, notFound } from '@common/middlewares'
 
 import { create as createMailer } from './mailer'

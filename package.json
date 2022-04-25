@@ -3,6 +3,7 @@
     "email": "michal.99.zajac@gmail.com",
     "name": "Michal Zajac"
   },
+  "license": "MIT",
   "types": "./src/index.d.ts",
   "dependencies": {
     "@typegoose/typegoose": "^9.7.1",
@@ -20,6 +21,7 @@
     "module-alias": "^2.2.2",
     "mongodb": "^4.4.1",
     "mongoose": "^6.2.9",
+    "mongoose-autopopulate": "^0.16.1",
     "morgan": "^1.10.0",
     "nodemailer": "^6.7.3",
     "passport": "^0.5.2",
@@ -66,7 +68,7 @@
     "@users": "./src/users",
     "@auth": "./src/auth",
     "@common": "./src/common",
-    "@workspace": "./src/workspace"
+    "@workspaces": "./src/workspaces"
   },
   "scripts": {
     "eslint": "eslint '**/*.{ts,tsx}'",

@@ -5,13 +5,10 @@ import { config } from '@config'
 
 const { SALT_ROUNDS } = config
 
-export const encryptPassword = (
-  password: string | undefined
-): string | undefined => {
+export const encryptPassword = (password: string | undefined): string | undefined => {
   if (!password) return undefined
 
-  if (!validator.isStrongPassword(password))
-    throw { password: 'password is too weak' }
+  if (!validator.isStrongPassword(password)) throw { password: 'password is too weak' }
 
   return bcrypt.hashSync(password, SALT_ROUNDS)
 }

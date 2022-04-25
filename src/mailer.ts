@@ -3,8 +3,7 @@ import nodemailer, { SentMessageInfo, Transporter } from 'nodemailer'
 
 import { config } from '@config'
 
-const { SMTP_HOST, SMTP_PASS, SMTP_PORT, SMTP_SECURE, SMTP_USER, NODE_ENV } =
-  config
+const { SMTP_HOST, SMTP_PASS, SMTP_PORT, SMTP_SECURE, SMTP_USER, NODE_ENV } = config
 
 export let mailer: Transporter<SentMessageInfo> | undefined = undefined
 

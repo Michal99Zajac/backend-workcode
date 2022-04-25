@@ -3,7 +3,7 @@
     "module": "commonjs",
     "esModuleInterop": true,
     "target": "es6",
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "sourceMap": true,
@@ -14,7 +14,7 @@
       "@users/*": ["src/users/*"],
       "@auth/*": ["src/auth/*"],
       "@common/*": ["src/common/*"],
-      "@workspace/*": ["src/workspace/*"],
+      "@workspaces/*": ["src/workspaces/*"],
       "@config": ["src/config"]
     }
   },
