@@ -21,7 +21,8 @@ export const workspaceGuard = async (req: Request, res: Response, next: NextFunc
 
   // get workspace by _id
   try {
-    workspace = await WorkspaceModel.findById(workspaceId).where({
+    workspace = await WorkspaceModel.findOne({
+      _id: workspaceId,
       $or: [{ author: user._id }, { contributors: user._id }],
     })
 

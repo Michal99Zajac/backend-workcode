@@ -7,10 +7,11 @@ import { prettyError } from '@common/utils'
 
 import contributorsRouter from './contributors'
 import inviteRouter from './invite'
+import leaveRouter from './leave'
 
 export const router = Router()
 
-router.use(contributorsRouter, inviteRouter)
+router.use(contributorsRouter, inviteRouter, leaveRouter)
 
 router.get('/workspaces/:workspaceId', workspaceGuard, async (req, res) => {
   res.json(res.locals.workspace.public)
