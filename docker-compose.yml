@@ -2,6 +2,7 @@ version: '3.5'
 
 services:
   mongodb:
+    container_name: workcode-database
     image: mongo:5.0
     ports:
       - 27017:27017
@@ -10,7 +11,10 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=password
+    networks:
+      - workcode-api
   mailhog:
+    container_name: workcode-SMTP
     image: mailhog/mailhog
     ports:
       - 1025:1025 # SMTP Server
@@ -18,3 +22,24 @@ services:
     restart: unless-stopped
     logging:
       driver: 'none'
+    networks:
+      - workcode-api
+  server:
+    container_name: workcode-server
+    build:
+      context: .
+      dockerfile: dockerfile
+    ports:
+      - 8000:8000
+    depends_on:
+      - mongodb
+      - mailhog
+    environment:
+      - MONGO_HOST=mongodb
+    env_file:
+      - ./.env
+    networks:
+      - workcode-api
+
+networks:
+  workcode-api:
