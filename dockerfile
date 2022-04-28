@@ -7,6 +7,8 @@ WORKDIR /workspace
 COPY package.json .
 COPY yarn.lock .
 COPY src src
+COPY tsconfig.json .
+COPY locales .
 
 FROM node as builder
 
@@ -14,8 +16,6 @@ WORKDIR /workspace
 
 COPY --from=deps /workspace .
 
-COPY . .
+RUN yarn install --immutable
 
-RUN yarn install
-
-CMD ["yarn", "start"]
+CMD ["yarn", "run", "ts-node", "src/index.ts"]

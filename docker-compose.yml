@@ -4,6 +4,7 @@ services:
   mongodb:
     container_name: workcode-database
     image: mongo:5.0
+    restart: always
     ports:
       - 27017:27017
     volumes:
@@ -26,6 +27,7 @@ services:
       - workcode-api
   server:
     container_name: workcode-server
+    restart: always
     build:
       context: .
       dockerfile: dockerfile
@@ -34,8 +36,6 @@ services:
     depends_on:
       - mongodb
       - mailhog
-    environment:
-      - MONGO_HOST=mongodb
     env_file:
       - ./.env
     networks:
@@ -43,3 +43,4 @@ services:
 
 networks:
   workcode-api:
+    driver: bridge
