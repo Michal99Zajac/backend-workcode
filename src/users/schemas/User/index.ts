@@ -24,8 +24,17 @@ const { SALT_ROUNDS } = config
   const hash = await bcrypt.hash(this.password, SALT_ROUNDS)
   this.password = hash
 })
-@pre<User>('remove', async function () {
-  await WorkspaceModel.find({ author: this._id })
+@pre<User>('deleteOne', async function (callback) {
+  const userId = this.getFilter()['_id']
+
+  // if userId is not specified then omit hook
+  if (!userId) return callback()
+
+  try {
+    await WorkspaceModel.deleteMany({ author: userId })
+  } catch (error) {
+    callback(error)
+  }
 })
 @modelOptions({
   schemaOptions: {
