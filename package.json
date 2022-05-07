@@ -72,7 +72,7 @@
   },
   "scripts": {
     "eslint": "eslint '**/*.{ts,tsx}'",
-    "start": "nodemon ./src/index.ts",
+    "start": "NODE_ENV=development nodemon ./src/index.ts",
     "prepare": "husky install"
   }
 }
