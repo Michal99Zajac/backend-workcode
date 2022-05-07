@@ -1,6 +1,6 @@
 import { Router } from 'express'
 
-import { Workspace } from '@workspaces/models'
+import { Workspace } from '@workspaces/schemas'
 import { canCatchWorkspace } from '@workspaces/middlewares'
 
 export const router = Router()

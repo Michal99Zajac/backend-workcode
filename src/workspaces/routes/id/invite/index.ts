@@ -1,8 +1,9 @@
 import { Router } from 'express'
 import { BadRequest } from 'http-errors'
 
-import { InvitationModel, Workspace } from '@workspaces/models'
-import { UserModel, User } from '@users/models'
+import { InvitationModel, UserModel } from '@root/models'
+import { Workspace } from '@workspaces/schemas'
+import { User } from '@users/schemas'
 import { isWorkspaceAuthor, canCatchWorkspace } from '@workspaces/middlewares'
 import { prettyError } from '@common/utils'
 

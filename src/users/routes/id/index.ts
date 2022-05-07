@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import { NotFound } from 'http-errors'
 
-import { UserModel } from '@users/models'
+import { UserModel } from '@root/models'
 
 export const router = Router()
 

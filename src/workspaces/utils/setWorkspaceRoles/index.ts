@@ -2,7 +2,7 @@ import { DocumentType } from '@typegoose/typegoose'
 import { ObjectId } from 'mongodb'
 
 import { WorkspaceRole } from '@workspaces/utils'
-import { Workspace } from '@workspaces/models'
+import { Workspace } from '@workspaces/schemas'
 
 export const setWorkspaceRoles = (workspace: DocumentType<Workspace>, userId: ObjectId) => {
   const roles: WorkspaceRole[] = []

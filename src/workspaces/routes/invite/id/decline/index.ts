@@ -1,8 +1,9 @@
 import { Router } from 'express'
 import { DocumentType } from '@typegoose/typegoose'
 
+import { InvitationModel } from '@root/models'
 import { canSeeInvitation } from '@workspaces/middlewares'
-import { Invitation, InvitationModel } from '@workspaces/models'
+import { Invitation } from '@workspaces/schemas'
 
 export const router = Router()
 

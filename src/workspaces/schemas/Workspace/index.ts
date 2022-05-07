@@ -1,8 +1,8 @@
-import { getModelForClass, modelOptions, prop, PropType, Ref, plugin } from '@typegoose/typegoose'
+import { modelOptions, prop, PropType, Ref, plugin } from '@typegoose/typegoose'
 import autopopulate from 'mongoose-autopopulate'
 
 import { BaseSchema } from '@root/types'
-import { User } from '@users/models/User'
+import { User } from '@users/schemas/User'
 
 @plugin(autopopulate)
 @modelOptions({
@@ -66,6 +66,4 @@ export class Workspace extends BaseSchema {
   // static functions
 }
 
-export const WorkspaceModel = getModelForClass<typeof Workspace>(Workspace)
-
-export default WorkspaceModel
+export default Workspace

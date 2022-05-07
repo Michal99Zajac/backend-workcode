@@ -6,7 +6,7 @@ import bcrypt from 'bcrypt'
 import { Forbidden } from 'http-errors'
 
 import { config } from '@config'
-import { UserModel } from '@users/models'
+import { UserModel } from '@root/models'
 
 const JWTStrategy = passportJWT.Strategy
 const LocalStrategy = passportLocal.Strategy

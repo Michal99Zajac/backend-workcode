@@ -2,7 +2,8 @@ import { Router } from 'express'
 import { DocumentType } from '@typegoose/typegoose'
 import { BadRequest } from 'http-errors'
 
-import { Invitation, InvitationModel, WorkspaceModel } from '@workspaces/models'
+import { InvitationModel, WorkspaceModel } from '@root/models'
+import { Invitation } from '@workspaces/schemas'
 import { canSeeInvitation } from '@workspaces/middlewares'
 import { prettyError } from '@common/utils'
 

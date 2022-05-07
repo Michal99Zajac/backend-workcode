@@ -2,9 +2,10 @@ import { Request, Response, NextFunction } from 'express'
 import { DocumentType, mongoose } from '@typegoose/typegoose'
 import { UnprocessableEntity, Forbidden } from 'http-errors'
 
+import { WorkspaceModel } from '@root/models'
 import { setWorkspaceRoles } from '@workspaces/utils'
-import { User } from '@users/models'
-import { Workspace, WorkspaceModel } from '@workspaces/models'
+import { User } from '@users/schemas'
+import { Workspace } from '@root/workspaces/schemas'
 
 export const canCatchWorkspace = async (req: Request, res: Response, next: NextFunction) => {
   if (!req.user) return next(new Forbidden('user is not logged'))

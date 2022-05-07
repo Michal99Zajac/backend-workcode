@@ -1,10 +1,11 @@
 import { Router } from 'express'
 import { InternalServerError } from 'http-errors'
 
-import { User } from '@users/models'
-import { Workspace, WorkspaceModel } from '@workspaces/models'
+import { User } from '@users/schemas'
+import { Workspace } from '@workspaces/schemas'
 import { isWorkspaceContributor, canCatchWorkspace } from '@workspaces/middlewares'
 import { prettyError } from '@common/utils'
+import { WorkspaceModel } from '@root/models'
 
 export const router = Router()
 

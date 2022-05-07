@@ -1,5 +1,5 @@
-import { User, UserModel } from '@users/models/User'
-import { WorkspaceModel } from '@workspaces/models/Workspace'
+import { User } from '@users/schemas/User'
+import { UserModel, WorkspaceModel } from '@root/models'
 
 export interface workspacesQuery {
   name?: string

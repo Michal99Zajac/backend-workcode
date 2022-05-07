@@ -1,7 +1,7 @@
-import { getModelForClass, ModelOptions, pre, prop, Ref } from '@typegoose/typegoose'
+import { ModelOptions, pre, prop, Ref } from '@typegoose/typegoose'
 
-import { Workspace } from '@workspaces/models'
-import { User } from '@users/models'
+import { Workspace } from '@workspaces/schemas'
+import { User } from '@users/schemas'
 import { BaseSchema } from '@root/types'
 
 @ModelOptions({
@@ -52,6 +52,4 @@ export class Invitation extends BaseSchema {
   // static functions
 }
 
-export const InvitationModel = getModelForClass<typeof Invitation>(Invitation)
-
-export default InvitationModel
+export default Workspace
