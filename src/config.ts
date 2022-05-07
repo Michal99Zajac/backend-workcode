@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 
 // init dotenv config
-dotenv.config()
+dotenv.config({ path: `.env.${process.env.NODE_ENV}` })
 
 // API configuration
 export const config = {

@@ -36,8 +36,10 @@ services:
     depends_on:
       - mongodb
       - mailhog
+    environment:
+      - NODE_ENV=staging
     env_file:
-      - ./.env
+      - ./.env.staging
     networks:
       - workcode-api
 
