@@ -1,5 +1,4 @@
 import {
-  getModelForClass,
   modelOptions,
   DocumentType,
   pre,
@@ -13,18 +12,27 @@ import autopopulate from 'mongoose-autopopulate'
 import validator from 'validator'
 import bcrypt from 'bcrypt'
 
+import { WorkspaceModel, UserModel } from '@root/models'
 import { config } from '@config'
-import { Role } from '@users/models/Role'
+import { Role } from '@root/users/schemas/Role'
 import { BaseSchema } from '@root/types'
 
 const { SALT_ROUNDS } = config
-
-// export interface User extends Base {}
 
 @plugin(autopopulate)
 @pre<User>('save', async function () {
   const hash = await bcrypt.hash(this.password, SALT_ROUNDS)
   this.password = hash
+})
+@pre<User>('deleteOne', async function (callback) {
+  const filter = this.getFilter()
+
+  try {
+    const user = await UserModel.findOne(filter)
+    await WorkspaceModel.deleteMany({ author: user._id })
+  } catch (error) {
+    callback(error)
+  }
 })
 @modelOptions({
   schemaOptions: {
@@ -136,6 +144,4 @@ export class User extends BaseSchema {
   }
 }
 
-export const UserModel = getModelForClass(User)
-
-export default UserModel
+export default User

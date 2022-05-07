@@ -1,4 +1,4 @@
-import { prop, getModelForClass, modelOptions } from '@typegoose/typegoose'
+import { prop, modelOptions } from '@typegoose/typegoose'
 
 import { BaseSchema } from '@root/types'
 
@@ -21,6 +21,4 @@ export class Role extends BaseSchema<string> {
   }
 }
 
-export const RoleModel = getModelForClass(Role)
-
-export default RoleModel
+export default Role

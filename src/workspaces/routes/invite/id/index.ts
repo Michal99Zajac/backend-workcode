@@ -1,7 +1,7 @@
 import { Router } from 'express'
 
 import { canSeeInvitation } from '@workspaces/middlewares'
-import { Invitation } from '@workspaces/models'
+import { Invitation } from '@workspaces/schemas'
 
 import acceptRouter from './accept'
 import declineRouter from './decline'

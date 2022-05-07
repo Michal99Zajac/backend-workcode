@@ -2,7 +2,7 @@ import { Router } from 'express'
 import jwt from 'jsonwebtoken'
 import { BadRequest } from 'http-errors'
 
-import { UserModel } from '@users/models'
+import { UserModel } from '@root/models'
 import { config } from '@config'
 import { mailer } from '@root/mailer'
 import { forgotPasswordMessage } from '@auth/templates'

@@ -2,9 +2,9 @@ import { Router } from 'express'
 import passport from 'passport'
 import { UnprocessableEntity } from 'http-errors'
 
-import { User } from '@users/models/User'
-import { WorkspaceModel } from '@workspaces/models/Workspace'
-import { prettyError } from '@root/common/utils'
+import { WorkspaceModel } from '@root/models'
+import { User } from '@users/schemas/User'
+import { prettyError } from '@common/utils'
 import { findWorkspaces } from '@workspaces/helpers'
 
 import idRouter from './id'

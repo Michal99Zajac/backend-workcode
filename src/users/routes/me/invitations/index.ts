@@ -1,7 +1,7 @@
 import { Router } from 'express'
 
-import { User } from '@users/models'
-import { InvitationModel } from '@workspaces/models'
+import { User } from '@users/schemas'
+import { InvitationModel } from '@root/models'
 
 export const router = Router()
 

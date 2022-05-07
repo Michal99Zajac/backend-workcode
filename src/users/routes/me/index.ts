@@ -1,7 +1,8 @@
 import { Router } from 'express'
 import { UnprocessableEntity, BadRequest } from 'http-errors'
 
-import { UserModel, User } from '@users/models/User'
+import { UserModel } from '@root/models'
+import { User } from '@users/schemas/User'
 import { prettyError } from '@common/utils'
 import { encryptPassword } from '@users/utils'
 
@@ -51,10 +52,11 @@ router.delete('/users/me', async (req, res, next) => {
   const user = await UserModel.findOne({ _id: _id })
 
   const isCorrect = await user.checkPassword(password)
-  if (!isCorrect) return next(new BadRequest({ password: 'password is incorrect' } as any))
+  if (!isCorrect) return next(new BadRequest(prettyError({ password: 'password is incorrect' })))
 
   try {
     await UserModel.deleteOne({ _id: user._id })
+
     res.status(200).json({
       message: 'user has been deleted',
     })

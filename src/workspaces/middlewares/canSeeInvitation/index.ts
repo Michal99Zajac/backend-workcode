@@ -2,8 +2,8 @@ import { Request, Response, NextFunction } from 'express'
 import { Forbidden, UnprocessableEntity, BadRequest } from 'http-errors'
 import mongoose from 'mongoose'
 
-import { InvitationModel } from '@workspaces/models'
-import { User } from '@users/models'
+import { InvitationModel } from '@root/models'
+import { User } from '@users/schemas'
 
 export const canSeeInvitation = async (req: Request, res: Response, next: NextFunction) => {
   const user = req.user as User

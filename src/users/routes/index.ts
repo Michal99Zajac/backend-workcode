@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import passport from 'passport'
 
-import { UserModel } from '../models'
+import { UserModel } from '@root/models'
 
 import userMeRouter from './me'
 import userIdRouter from './id'

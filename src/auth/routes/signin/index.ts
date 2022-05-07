@@ -3,7 +3,7 @@ import { Unauthorized } from 'http-errors'
 import passport from 'passport'
 import jwt from 'jsonwebtoken'
 
-import { User } from '@users/models'
+import { User } from '@users/schemas'
 import { config } from '@config'
 
 const { JWT_SECRET } = config
