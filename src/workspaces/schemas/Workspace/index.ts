@@ -1,11 +1,38 @@
 import { modelOptions, prop, PropType, Ref, plugin, pre } from '@typegoose/typegoose'
 import autopopulate from 'mongoose-autopopulate'
 
-import { InvitationModel } from '@root/models'
+import { InvitationModel, WorkspaceModel } from '@root/models'
 import { BaseSchema } from '@root/types'
 import { User } from '@users/schemas/User'
 
 @plugin(autopopulate)
+@pre<Workspace>('deleteMany', async function (callback) {
+  const filter = this.getFilter()
+
+  try {
+    const workspaceIds = await WorkspaceModel.find(filter).transform((workspaces) =>
+      workspaces.map((workspace) => workspace._id)
+    )
+
+    await InvitationModel.deleteMany({
+      workspace: {
+        $in: workspaceIds,
+      },
+    })
+  } catch (error) {
+    callback(error)
+  }
+})
+@pre<Workspace>('deleteOne', async function (callback) {
+  const filter = this.getFilter()
+
+  try {
+    const workspace = await WorkspaceModel.findOne(filter)
+    await InvitationModel.deleteMany({ workspace: workspace._id })
+  } catch (error) {
+    callback(error)
+  }
+})
 @modelOptions({
   schemaOptions: {
     collection: 'Workspaces',
