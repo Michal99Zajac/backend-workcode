@@ -12,7 +12,7 @@ import autopopulate from 'mongoose-autopopulate'
 import validator from 'validator'
 import bcrypt from 'bcrypt'
 
-import { WorkspaceModel } from '@root/models'
+import { WorkspaceModel, UserModel } from '@root/models'
 import { config } from '@config'
 import { Role } from '@root/users/schemas/Role'
 import { BaseSchema } from '@root/types'
@@ -25,13 +25,11 @@ const { SALT_ROUNDS } = config
   this.password = hash
 })
 @pre<User>('deleteOne', async function (callback) {
-  const userId = this.getFilter()['_id']
-
-  // if userId is not specified then omit hook
-  if (!userId) return callback()
+  const filter = this.getFilter()
 
   try {
-    await WorkspaceModel.deleteMany({ author: userId })
+    const user = await UserModel.findOne(filter)
+    await WorkspaceModel.deleteMany({ author: user._id })
   } catch (error) {
     callback(error)
   }

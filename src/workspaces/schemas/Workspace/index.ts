@@ -1,6 +1,7 @@
-import { modelOptions, prop, PropType, Ref, plugin } from '@typegoose/typegoose'
+import { modelOptions, prop, PropType, Ref, plugin, pre } from '@typegoose/typegoose'
 import autopopulate from 'mongoose-autopopulate'
 
+import { InvitationModel } from '@root/models'
 import { BaseSchema } from '@root/types'
 import { User } from '@users/schemas/User'
 
