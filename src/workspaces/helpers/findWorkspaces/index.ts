@@ -3,7 +3,7 @@ import { UserModel, WorkspaceModel } from '@root/models'
 
 export interface workspacesQuery {
   name?: string
-  code?: 'BASH' | 'JAVASCRIPT' | 'PYTHON'
+  code?: 'BASH' | 'JAVASCRIPT' | 'PYTHON' | 'ALL'
   self?: string
   owner?: string
 }
@@ -15,7 +15,7 @@ export const findWorkspaces = async (query: workspacesQuery, current: User) => {
     $or: [{ contributors: current._id }, { author: current._id }],
   })
 
-  if (query.code) {
+  if (query.code && query.code !== 'ALL') {
     workspaces = workspaces.find({
       code: { $regex: query.code, $options: 'i' },
     })
@@ -28,7 +28,7 @@ export const findWorkspaces = async (query: workspacesQuery, current: User) => {
   }
 
   const owners = await __owner
-  if (owners) {
+  if (owners && query.self !== 'true') {
     workspaces = workspaces.find({ author: { $in: owners } })
   }
 
