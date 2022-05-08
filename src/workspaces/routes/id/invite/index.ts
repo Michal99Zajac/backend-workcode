@@ -7,6 +7,7 @@ import { Workspace } from '@workspaces/schemas'
 import { User } from '@users/schemas'
 import { isWorkspaceAuthor, canCatchWorkspace } from '@workspaces/middlewares'
 import { prettyError } from '@common/utils'
+import { findUsersToInvite } from '@workspaces/helpers'
 
 export const router = Router()
 
@@ -23,41 +24,8 @@ router.get(
     }
     const query = req.query.query as string
 
-    const matchedUsers = await UserModel.matchedFullname(query)
     try {
-      const users = await UserModel.findPagination(
-        {
-          $and: [
-            {
-              _id: {
-                $not: {
-                  $eq: user._id,
-                },
-              },
-            },
-            {
-              _id: {
-                $nin: workspace.contributors,
-              },
-            },
-            query
-              ? {
-                  $or: [
-                    {
-                      _id: {
-                        $in: matchedUsers,
-                      },
-                    },
-                    {
-                      email: query,
-                    },
-                  ],
-                }
-              : {},
-          ],
-        },
-        pagination
-      )
+      const users = await findUsersToInvite({ workspace, user, query, pagination })
 
       res.json({
         ...users,
