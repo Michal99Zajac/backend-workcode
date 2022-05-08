@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Router } from 'express'
 import { BadRequest } from 'http-errors'
 
@@ -6,8 +7,35 @@ import { Workspace } from '@workspaces/schemas'
 import { User } from '@users/schemas'
 import { isWorkspaceAuthor, canCatchWorkspace } from '@workspaces/middlewares'
 import { prettyError } from '@common/utils'
+import { findUsersToInvite } from '@workspaces/helpers'
 
 export const router = Router()
+
+router.get(
+  '/workspaces/:workspaceId/invite',
+  canCatchWorkspace,
+  isWorkspaceAuthor,
+  async (req, res, next) => {
+    const workspace = res.locals.workspace as Workspace
+    const user = req.user as User
+    const pagination = {
+      limit: isNaN(+req.query.limit) ? 0 : +req.query.limit,
+      page: isNaN(+req.query.page) ? 0 : +req.query.page,
+    }
+    const query = req.query.query as string
+
+    try {
+      const users = await findUsersToInvite({ workspace, user, query, pagination })
+
+      res.json({
+        ...users,
+        users: users.users.map((user) => user.public),
+      })
+    } catch (error) {
+      next(new BadRequest(prettyError(error)))
+    }
+  }
+)
 
 router.post(
   '/workspaces/:workspaceId/invite',
