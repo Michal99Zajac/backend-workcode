@@ -17,35 +17,51 @@ router.get(
   async (req, res, next) => {
     const workspace = res.locals.workspace as Workspace
     const user = req.user as User
-    const query = {
+    const pagination = {
       limit: isNaN(+req.query.limit) ? 0 : +req.query.limit,
       page: isNaN(+req.query.page) ? 0 : +req.query.page,
-      query: req.query.query,
     }
+    const query = req.query.query as string
 
+    const matchedUsers = await UserModel.matchedFullname(query)
     try {
-      const userQuery = UserModel.find({
-        $not: {
-          $eq: user._id,
+      const users = await UserModel.findPagination(
+        {
+          $and: [
+            {
+              _id: {
+                $not: {
+                  $eq: user._id,
+                },
+              },
+            },
+            {
+              _id: {
+                $nin: workspace.contributors,
+              },
+            },
+            query
+              ? {
+                  $or: [
+                    {
+                      _id: {
+                        $in: matchedUsers,
+                      },
+                    },
+                    {
+                      email: query,
+                    },
+                  ],
+                }
+              : {},
+          ],
         },
-      }).getQuery()
-
-      const count = await UserModel.find(userQuery).countDocuments()
-      const users = await UserModel.find(userQuery)
-        .skip(query.page * query.limit)
-        .limit(query.limit)
-        .sort('name')
-        .transform((users) => users.map((user) => user.public))
+        pagination
+      )
 
       res.json({
-        users: users,
-        navigation: {
-          first: 0,
-          next: query.page + 1,
-          previous: query.page - 1,
-          last: count % query.limit,
-          count: count,
-        },
+        ...users,
+        users: users.users.map((user) => user.public),
       })
     } catch (error) {
       next(new BadRequest(prettyError(error)))

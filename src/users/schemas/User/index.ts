@@ -12,6 +12,7 @@ import autopopulate from 'mongoose-autopopulate'
 import validator from 'validator'
 import bcrypt from 'bcrypt'
 
+import { Pagination, PaginationQuery } from '@common/types'
 import { WorkspaceModel, UserModel } from '@root/models'
 import { config } from '@config'
 import { Role } from '@root/users/schemas/Role'
@@ -143,6 +144,36 @@ export class User extends BaseSchema {
       },
     ]).then((owners) => owners.map((owner) => owner._id))
   }
+
+  public static async findPagination(
+    this: ReturnModelType<typeof User>,
+    query: any,
+    paginationQuery: PaginationQuery
+  ): Promise<FindPagination> {
+    const userQuery = this.find(query).getQuery()
+    const count = await this.find(userQuery).countDocuments()
+    const users = await this.find(userQuery)
+      .skip(paginationQuery.page * paginationQuery.limit)
+      .limit(paginationQuery.limit)
+      .sort('name')
+    // .transform((users) => users.map((user) => user.public))
+
+    return {
+      users: users,
+      pagination: {
+        first: 0,
+        last: 0,
+        next: 0,
+        previous: 0,
+        count: count,
+      },
+    }
+  }
 }
 
 export default User
+
+export interface FindPagination {
+  users: User[]
+  pagination: Pagination
+}
