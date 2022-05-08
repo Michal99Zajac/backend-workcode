@@ -124,6 +124,8 @@ export class User extends BaseSchema {
   public static async matchedFullname(this: ReturnModelType<typeof User>, fullname?: string) {
     if (!fullname) return undefined
 
+    const regex = new RegExp(fullname, 'i')
+
     return this.aggregate([
       {
         $addFields: {
@@ -135,8 +137,7 @@ export class User extends BaseSchema {
       {
         $match: {
           fullname: {
-            $regex: /e/,
-            $options: 'i',
+            $regex: regex,
           },
         },
       },
