@@ -5,6 +5,7 @@ import i18next from 'i18next'
 import bcrypt from 'bcrypt'
 import { Forbidden } from 'http-errors'
 
+import { prettyError } from '@common/utils'
 import { config } from '@config'
 import { UserModel } from '@root/models'
 
@@ -48,7 +49,7 @@ passport.use(
 
       if (user) return done(null, user)
 
-      return done(new Forbidden(i18next.t('auth.jwt.unauthorized')))
+      return done(new Forbidden(prettyError({ message: i18next.t('auth.jwt.unauthorized') })))
     }
   )
 )

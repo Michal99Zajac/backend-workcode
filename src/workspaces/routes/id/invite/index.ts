@@ -48,9 +48,10 @@ router.post(
 
     const guest = await UserModel.findById(guestId)
 
-    if (!guest) return next(new BadRequest("user doesn't exist"))
+    if (!guest) return next(new BadRequest(prettyError({ message: "user doesn't exist" })))
 
-    if (user._id.equals(guest._id)) return next(new BadRequest("Author can't invite self"))
+    if (user._id.equals(guest._id))
+      return next(new BadRequest(prettyError({ message: "Author can't invite self" })))
 
     try {
       const invitation = await new InvitationModel({
