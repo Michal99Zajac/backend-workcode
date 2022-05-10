@@ -2,18 +2,20 @@ import { Request, Response, NextFunction } from 'express'
 import { DocumentType, mongoose } from '@typegoose/typegoose'
 import { UnprocessableEntity, Forbidden } from 'http-errors'
 
+import { prettyError } from '@common/utils'
 import { WorkspaceModel } from '@root/models'
 import { setWorkspaceRoles } from '@workspaces/utils'
 import { User } from '@users/schemas'
 import { Workspace } from '@root/workspaces/schemas'
 
 export const canCatchWorkspace = async (req: Request, res: Response, next: NextFunction) => {
-  if (!req.user) return next(new Forbidden('user is not logged'))
+  if (!req.user) return next(new Forbidden(prettyError({ message: 'user is not logged' })))
 
-  if (!req.params.workspaceId) return next(new Forbidden('id is not provided'))
+  if (!req.params.workspaceId)
+    return next(new Forbidden(prettyError({ message: 'id is not provided' })))
 
   if (!mongoose.isValidObjectId(req.params.workspaceId))
-    return next(new UnprocessableEntity('id is not valid'))
+    return next(new UnprocessableEntity(prettyError({ message: 'id is not valid' })))
 
   // declare variables
   let workspace: DocumentType<Workspace> | null = null
@@ -28,7 +30,9 @@ export const canCatchWorkspace = async (req: Request, res: Response, next: NextF
     })
 
     if (!workspace)
-      throw new Forbidden("user is not part of the workspace or workspace doesn't exist")
+      throw new Forbidden(
+        prettyError({ message: "user is not part of the workspace or workspace doesn't exist" })
+      )
   } catch (error) {
     return next(error)
   }
