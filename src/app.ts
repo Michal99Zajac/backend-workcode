@@ -9,6 +9,7 @@ import { Server } from 'socket.io'
 import userRouter from '@users/routes'
 import { router as authRouter } from '@auth/routes'
 import { router as workspaceRouter } from '@workspaces/routes'
+import { router as editorRouter } from '@editor/routers'
 import { errorHandler, notFound } from '@common/middlewares'
 import { initEditor } from '@editor/connection'
 import { initChat } from '@chat/connection'
@@ -52,7 +53,7 @@ export const App = async () => {
   app.use(morgan('combined'))
 
   // routers
-  app.use('/api', authRouter, workspaceRouter, userRouter)
+  app.use('/api', authRouter, workspaceRouter, userRouter, editorRouter)
 
   // 404
   app.use('*', notFound)
