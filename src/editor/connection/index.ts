@@ -1,13 +1,29 @@
 import { Server } from 'socket.io'
 
-export function socket(io: Server) {
-  io.on('connection', (socket) => {
-    const workspace = socket.request.headers['workspace']
-    socket.join(workspace)
-    io.sockets.in(workspace).emit('join', 'You are in room ' + workspace)
+import { User } from '@users/schemas'
+import { auth } from '@common/middlewares'
 
-    io.on('disconnect', async () => {
-      console.log('disconnected')
+export function initEditor(io: Server) {
+  const editor = io.of('/editor')
+
+  editor.use(auth)
+
+  editor.on('connection', (socket) => {
+    const workspaceId = socket.request.headers.workspace as string
+    const user = socket.handshake.query.user as any as User
+
+    // create or assign to the room
+    socket.join(workspaceId)
+
+    // send message about new connection
+    editor.to(workspaceId).except(socket.id).emit('join', user._id)
+
+    // operations
+
+    // handle disconnection
+    socket.on('disconnect', async () => {
+      editor.to(workspaceId).except(socket.id).emit('leave', user._id)
+      socket.leave(workspaceId)
     })
   })
 }

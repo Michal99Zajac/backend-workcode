@@ -70,7 +70,8 @@
     "@auth": "./src/auth",
     "@common": "./src/common",
     "@workspaces": "./src/workspaces",
-    "@editor": "./src/editor"
+    "@editor": "./src/editor",
+    "@chat": "./src/chat"
   },
   "scripts": {
     "eslint": "eslint '**/*.{ts,tsx}'",
