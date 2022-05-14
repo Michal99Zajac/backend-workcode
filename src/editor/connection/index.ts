@@ -27,6 +27,12 @@ export function initEditor(io: Server) {
     editor.to(workspaceId).emit('join', rooms[workspaceId])
 
     // operations
+    socket.on('TYPE', (data: any) => {
+      editor.to(workspaceId).except(socket.id).emit('UPDATE', {
+        user: user._id,
+        change: data,
+      })
+    })
 
     // handle disconnection
     socket.on('disconnect', async () => {
