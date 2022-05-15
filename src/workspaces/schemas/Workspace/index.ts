@@ -1,11 +1,16 @@
-import { modelOptions, prop, PropType, Ref, plugin, pre } from '@typegoose/typegoose'
+import { modelOptions, prop, PropType, Ref, plugin, pre, post } from '@typegoose/typegoose'
 import autopopulate from 'mongoose-autopopulate'
 
-import { InvitationModel, WorkspaceModel } from '@root/models'
+import { InvitationModel, WorkspaceModel, EditorModel } from '@root/models'
 import { BaseSchema } from '@root/types'
 import { User } from '@users/schemas/User'
 
 @plugin(autopopulate)
+@post<Workspace>('save', async function () {
+  await new EditorModel({
+    workspace: this._id,
+  }).save()
+})
 @pre<Workspace>('deleteMany', async function (callback) {
   const filter = this.getFilter()
 

@@ -28,6 +28,8 @@
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
+    "randomcolor": "^0.6.2",
+    "socket.io": "^4.5.0",
     "ts-node": "^10.3.0",
     "typescript": "^4.4.4",
     "uuid": "^8.3.2",
@@ -68,7 +70,9 @@
     "@users": "./src/users",
     "@auth": "./src/auth",
     "@common": "./src/common",
-    "@workspaces": "./src/workspaces"
+    "@workspaces": "./src/workspaces",
+    "@editor": "./src/editor",
+    "@chat": "./src/chat"
   },
   "scripts": {
     "eslint": "eslint '**/*.{ts,tsx}'",
