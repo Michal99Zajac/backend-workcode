@@ -1,14 +1,15 @@
 import { Server } from 'socket.io'
-import { ObjectID } from 'bson'
+import randomcolor from 'randomcolor'
 
 import { EditorModel } from '@root/models'
 import { User } from '@users/schemas'
 import { auth } from '@common/middlewares'
+import { RoomUser } from '@editor/types'
 
 import { type, contentUpdate } from './helpers'
 import { Command } from './commands'
 
-const rooms: Record<string, ObjectID[]> = {}
+const rooms: Record<string, RoomUser[]> = {}
 
 export function initEditor(io: Server) {
   const editor = io.of('/editor')
@@ -21,7 +22,11 @@ export function initEditor(io: Server) {
 
     // create or assign to the room
     socket.join(workspaceId)
-    rooms[workspaceId] = rooms[workspaceId] ? [...rooms[workspaceId], user._id] : [user._id]
+    const roomUser: RoomUser = {
+      _id: user._id,
+      color: randomcolor(),
+    }
+    rooms[workspaceId] = rooms[workspaceId] ? [...rooms[workspaceId], roomUser] : [roomUser]
 
     // find workspace editor
     const workspaceEditor = await EditorModel.findOne({ workspace: workspaceId })
@@ -41,7 +46,7 @@ export function initEditor(io: Server) {
     // handle disconnection
     socket.on(Command.DISCONNECT, async () => {
       socket.leave(workspaceId)
-      rooms[workspaceId] = rooms[workspaceId].filter((_id) => _id !== user._id)
+      rooms[workspaceId] = rooms[workspaceId].filter((roomUser) => roomUser._id !== user._id)
       editor.to(workspaceId).emit(Command.LEAVE, rooms[workspaceId])
     })
   })

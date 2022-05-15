@@ -9,6 +9,8 @@ export enum Command {
   JOIN = 'JOIN', // inform about new connection
   LEAVE = 'LEAVE', // inform about deleted connection
   CONTENT_UPDATE = 'CONTENT_UPDATE', // update content sent from user
+  CURSOR = 'CURSOR', // user send position about cursor
+  CURSOR_UPDATE = 'CURSOR_UPDATE', // server send new position of user cursor
 }
 
 export default Command
