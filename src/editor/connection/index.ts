@@ -5,7 +5,7 @@ import { EditorModel } from '@root/models'
 import { User } from '@users/schemas'
 import { auth } from '@common/middlewares'
 
-import { type } from './helpers'
+import { type, contentUpdate } from './helpers'
 import { Command } from './commands'
 
 const rooms: Record<string, ObjectID[]> = {}
@@ -33,11 +33,10 @@ export function initEditor(io: Server) {
     socket.on(
       Command.TYPE,
       type({
-        workspaceEditor: workspaceEditor,
         emiter: editor.to(workspaceId).except(socket.id),
-        userId: user._id,
       })
     )
+    socket.on(Command.CONTENT_UPDATE, contentUpdate({ workspaceEditor }))
 
     // handle disconnection
     socket.on(Command.DISCONNECT, async () => {

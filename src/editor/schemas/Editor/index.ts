@@ -1,8 +1,10 @@
-import { modelOptions, prop, Ref, plugin } from '@typegoose/typegoose'
+import { modelOptions, prop, Ref, plugin, ReturnModelType } from '@typegoose/typegoose'
 import autopopulate from 'mongoose-autopopulate'
+import { ObjectID } from 'bson'
 
 import { Workspace } from '@workspaces/schemas'
 import { BaseSchema } from '@root/types'
+import { EditorChange } from '@editor/types'
 
 @plugin(autopopulate)
 @modelOptions({
@@ -38,6 +40,13 @@ export class Editor extends BaseSchema {
   }
 
   // static functions
+  public static async contentRefresh(
+    this: ReturnModelType<typeof Editor>,
+    editorId: ObjectID,
+    content: string
+  ) {
+    await this.updateOne({ _id: editorId }, { content: content })
+  }
 }
 
 export default Editor

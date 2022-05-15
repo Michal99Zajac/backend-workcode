@@ -8,6 +8,7 @@ export enum Command {
   TYPE = 'TYPE', // user type something
   JOIN = 'JOIN', // inform about new connection
   LEAVE = 'LEAVE', // inform about deleted connection
+  CONTENT_UPDATE = 'CONTENT_UPDATE', // update content sent from user
 }
 
 export default Command
