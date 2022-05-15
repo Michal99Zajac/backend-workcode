@@ -4,7 +4,6 @@ import { ObjectID } from 'bson'
 
 import { Workspace } from '@workspaces/schemas'
 import { BaseSchema } from '@root/types'
-import { EditorChange } from '@editor/types'
 
 @plugin(autopopulate)
 @modelOptions({
