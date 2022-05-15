@@ -1,8 +1,12 @@
 import { Server } from 'socket.io'
 import { ObjectID } from 'bson'
 
+import { EditorModel } from '@root/models'
 import { User } from '@users/schemas'
 import { auth } from '@common/middlewares'
+
+import { type } from './helpers'
+import { Command } from './commands'
 
 const rooms: Record<string, ObjectID[]> = {}
 
@@ -11,34 +15,35 @@ export function initEditor(io: Server) {
 
   editor.use(auth)
 
-  editor.on('connection', (socket) => {
+  editor.on('connection', async (socket) => {
     const workspaceId = socket.request.headers.workspace as string
     const user = socket.handshake.query.user as any as User
 
     // create or assign to the room
     socket.join(workspaceId)
-    if (rooms[workspaceId]) {
-      rooms[workspaceId] = [...rooms[workspaceId], user._id]
-    } else {
-      rooms[workspaceId] = [user._id]
-    }
+    rooms[workspaceId] = rooms[workspaceId] ? [...rooms[workspaceId], user._id] : [user._id]
+
+    // find workspace editor
+    const workspaceEditor = await EditorModel.findOne({ workspace: workspaceId })
 
     // send message about new connection
-    editor.to(workspaceId).emit('join', rooms[workspaceId])
+    editor.to(workspaceId).emit(Command.JOIN, rooms[workspaceId])
 
     // operations
-    socket.on('TYPE', (data: any) => {
-      editor.to(workspaceId).except(socket.id).emit('UPDATE', {
-        user: user._id,
-        change: data,
+    socket.on(
+      Command.TYPE,
+      type({
+        workspaceEditor: workspaceEditor,
+        emiter: editor.to(workspaceId).except(socket.id),
+        userId: user._id,
       })
-    })
+    )
 
     // handle disconnection
-    socket.on('disconnect', async () => {
+    socket.on(Command.DISCONNECT, async () => {
       socket.leave(workspaceId)
       rooms[workspaceId] = rooms[workspaceId].filter((_id) => _id !== user._id)
-      editor.to(workspaceId).emit('leave', rooms[workspaceId])
+      editor.to(workspaceId).emit(Command.LEAVE, rooms[workspaceId])
     })
   })
 }
