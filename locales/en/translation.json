@@ -18,8 +18,10 @@
 			"unauthorized": "Unauthorized"
 		}
 	},
-	"chat": {},
-	"common": {},
+	"common": {
+		"not_found": "not found",
+		"unauthorized": "Unauthorized"
+	},
 	"editor": {},
 	"users": {},
 	"workspaces": {},
