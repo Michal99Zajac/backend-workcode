@@ -41,7 +41,7 @@ export const findUsersToInvite = async (props: Props) => {
                   },
                 },
                 {
-                  email: query,
+                  email: new RegExp(query, 'i'),
                 },
               ],
             }
