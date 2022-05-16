@@ -25,8 +25,41 @@
 			"prettyError": "{{value}} already exists"
 		}
 	},
-	"editor": {},
-	"users": {},
+	"editor": {
+		"routers": {
+			"id": {
+				"index": {
+					"not_found": "editor doesn't exist"
+				}
+			}
+		}
+	},
+	"users": {
+		"routes": {
+			"id": {
+				"index": {
+					"get": {
+						"error": "not found"
+					}
+				}
+			},
+			"me": {
+				"index": {
+					"delete": {
+						"password": "password is incorrect",
+						"message": "user has been deleted"
+					}
+				}
+			}
+		},
+		"utils": {
+			"encryptPassword": {
+				"index": {
+					"password": "password is too weak"
+				}
+			}
+		}
+	},
 	"workspaces": {},
 	"models": {}
 }
