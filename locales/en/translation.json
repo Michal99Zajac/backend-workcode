@@ -1,5 +1,19 @@
 {
-	"example": {
-		"one": "one"
-	}
+	"auth": {
+		"forgot_password": {
+			"email": "user with that email doesnt exist",
+			"mail": {
+				"subject": "Workspace password restart",
+				"title": "You have 15min for password restart",
+				"message": "restart password"
+			},
+			"success": "Mail for password reset has been sent"
+		}
+	},
+	"chat": {},
+	"common": {},
+	"editor": {},
+	"models": {},
+	"users": {},
+	"workspaces": {}
 }

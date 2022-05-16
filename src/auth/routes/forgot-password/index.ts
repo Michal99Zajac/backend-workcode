@@ -17,7 +17,7 @@ router.post('/auth/forgot-password', async (req, res, next) => {
   const user = await UserModel.findOne({ email: email })
 
   if (!user)
-    return next(new BadRequest(prettyError({ email: 'user with that email doesnt exist' })))
+    return next(new BadRequest(prettyError({ email: req.t('auth.forgot_password.email') })))
 
   const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '15m' })
 
@@ -25,15 +25,15 @@ router.post('/auth/forgot-password', async (req, res, next) => {
     await mailer.sendMail({
       from: 'workcode@example.com', // TODO: change to the dedicated email
       to: user.email,
-      subject: req.t('forgot_password.email.subject'),
+      subject: req.t('auth.forgot_password.mail.subject'),
       html: forgotPasswordMessage({ token }),
     })
   } catch (error) {
-    next(new BadRequest(error))
+    next(new BadRequest(prettyError({ error: error })))
   }
 
   res.status(200).json({
-    message: req.t('forgot_password.success'),
+    message: req.t('auth.forgot_password.success'),
   })
 })
 

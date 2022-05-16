@@ -11,12 +11,12 @@ interface Message {
 export const forgotPasswordMessage = (message: Message) => {
   return `
     <h1>Worckode</h1>
-    <h4>${i18n.t('forgot_password.email.h4')}:</h4>
+    <h4>${i18n.t('auth.forgot_password.mail.title')}:</h4>
     <p>
       <a
-        href="${PUBLIC_URL}/auth/forgot-password/${message.token}"
+        href="${PUBLIC_URL}/auth/change-password/${message.token}"
       >
-        ${i18n.t('forgot_password.email.restart')}
+        ${i18n.t('auth.forgot_password.mail.message')}
       </a>
     </p>
   `
