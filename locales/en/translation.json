@@ -1,28 +1,46 @@
 {
 	"auth": {
-		"forgot_password": {
-			"email": "user with that email doesnt exist",
-			"mail": {
-				"subject": "Workspace password restart",
-				"title": "You have 15min for password restart",
-				"message": "restart password"
-			},
-			"success": "Mail for password reset has been sent"
+		"routes": {
+			"forgot_password": {
+				"index": {
+					"post": {
+						"email": "user with that email doesnt exist",
+						"subject": "Workspace password restart",
+						"success": "Mail for password reset has been sent"
+					}
+				}
+			}
 		},
-		"signin": {
-			"incorrect": {
-				"email": "User with this email doesn't exist",
-				"password": "Password is incorrect"
-			},
-			"success": "You are logged",
-			"unauthorized": "Unauthorized"
+		"templates": {
+			"forgot_password_message": {
+				"index": {
+					"title": "You have 15min for password restart",
+					"message": "restart password"
+				}
+			}
 		}
 	},
 	"common": {
-		"not_found": "not found",
-		"unauthorized": "Unauthorized",
+		"middlewares": {
+			"notFound": {
+				"index": {
+					"not_found": "not found"
+				}
+			},
+			"socket": {
+				"auth": {
+					"index": {
+						"unauthorized": "Unauthorized"
+					}
+				}
+			}
+		},
 		"utils": {
-			"prettyError": "{{value}} already exists"
+			"prettyError": {
+				"index": {
+					"message": "{{value}} already exists"
+				}
+			}
 		}
 	},
 	"editor": {
@@ -61,5 +79,17 @@
 		}
 	},
 	"workspaces": {},
-	"models": {}
+	"models": {},
+	"passport": {
+		"local": {
+			"incorrect": {
+				"email": "User with this email doesn't exist",
+				"password": "Password is incorrect"
+			},
+			"success": "You are logged"
+		},
+		"jwt": {
+			"unauthorized": "Unauthorized"
+		}
+	}
 }

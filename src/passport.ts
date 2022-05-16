@@ -21,16 +21,16 @@ passport.use(
       // check email and get user
       const user = await UserModel.findOne({ email: email })
       if (!user) {
-        return done({ email: i18next.t('auth.signin.incorrect.email') })
+        return done({ email: i18next.t('passport.local.incorrect.email') })
       }
 
       // check password
       const isCorrect = await bcrypt.compare(password, user.password)
       if (!isCorrect) {
-        return done({ password: i18next.t('auth.signin.incorrect.email') })
+        return done({ password: i18next.t('passport.local.incorrect.password') })
       }
 
-      return done(null, user, { message: i18next.t('auth.signin.success') })
+      return done(null, user, { message: i18next.t('passport.local.success') })
     }
   )
 )
@@ -49,7 +49,7 @@ passport.use(
 
       if (user) return done(null, user)
 
-      return done(new Forbidden(prettyError({ message: i18next.t('auth.signin.unauthorized') })))
+      return done(new Forbidden(prettyError({ message: i18next.t('passport.jwt.unauthorized') })))
     }
   )
 )

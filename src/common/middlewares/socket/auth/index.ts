@@ -11,7 +11,7 @@ const { JWT_SECRET } = config
 export const auth = async (socket: Socket, next: (err?: ExtendedError) => void) => {
   const token = socket.handshake.auth.token as string | null
 
-  if (!token) return next(new Error(i18n.t('common.unauthorized')))
+  if (!token) return next(new Error(i18n.t('common.middlewares.socket.auth.index.unauthorized')))
 
   try {
     const userId = (jwt.verify(token, JWT_SECRET) as any)._id as string
@@ -20,7 +20,7 @@ export const auth = async (socket: Socket, next: (err?: ExtendedError) => void) 
     // enrich socket by user
     socket.handshake.query.user = user as any
   } catch (error) {
-    return next(new Error(i18n.t('common.unauthorized')))
+    return next(new Error(i18n.t('common.middlewares.socket.auth.index.unauthorized')))
   }
 
   next()
