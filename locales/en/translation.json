@@ -20,7 +20,10 @@
 	},
 	"common": {
 		"not_found": "not found",
-		"unauthorized": "Unauthorized"
+		"unauthorized": "Unauthorized",
+		"utils": {
+			"prettyError": "{{value}} already exists"
+		}
 	},
 	"editor": {},
 	"users": {},
