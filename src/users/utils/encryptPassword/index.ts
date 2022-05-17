@@ -9,7 +9,7 @@ const { SALT_ROUNDS } = config
 export const encryptPassword = (password: string | undefined): string | undefined => {
   if (!password) return undefined
 
-  if (!validator.isStrongPassword(password))
+  if (!validator.isLength(password, { min: 8 }))
     throw { password: i18n.t('users.utils.encryptPassword.index.password') }
 
   return bcrypt.hashSync(password, SALT_ROUNDS)

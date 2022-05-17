@@ -73,7 +73,7 @@
 		"utils": {
 			"encryptPassword": {
 				"index": {
-					"password": "password is too weak"
+					"password": "password is too short"
 				}
 			}
 		},
