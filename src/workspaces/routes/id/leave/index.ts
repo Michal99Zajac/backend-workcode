@@ -20,7 +20,7 @@ router.post(
     try {
       await WorkspaceModel.updateOne({ _id: workspace._id }, { $pull: { contributors: user._id } })
 
-      res.json({ message: 'User leaved from workspace successfully' })
+      res.json({ message: req.t('workspaces.routes.id.leave.index.post.success') })
     } catch (error) {
       next(new InternalServerError(prettyError(error)))
     }

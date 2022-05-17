@@ -6,12 +6,18 @@ import { WorkspaceRole } from '@workspaces/utils'
 
 export const isWorkspaceAuthor = (req: Request, res: Response, next: NextFunction) => {
   if (!res.locals.workspaceRoles)
-    throw new Error(prettyError({ message: 'workspaceAuthorGuard require workspaceGuard earlier' }))
+    throw new Error(
+      prettyError({ message: req.t('workspaces.middlewares.isWorkspaceAuthor.index.roles_error') })
+    )
 
   const roles = res.locals.workspaceRoles as WorkspaceRole[]
 
   if (!roles.includes(WorkspaceRole.AUTHOR))
-    return next(new Forbidden(prettyError({ message: 'user is not owner of the workspace' })))
+    return next(
+      new Forbidden(
+        prettyError({ message: req.t('workspaces.middlewares.isWorkspaceAuthor.index.forbidden') })
+      )
+    )
 
   next()
 }

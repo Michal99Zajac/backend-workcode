@@ -9,13 +9,32 @@ import { User } from '@users/schemas'
 import { Workspace } from '@root/workspaces/schemas'
 
 export const canCatchWorkspace = async (req: Request, res: Response, next: NextFunction) => {
-  if (!req.user) return next(new Forbidden(prettyError({ message: 'user is not logged' })))
+  if (!req.user)
+    return next(
+      new Forbidden(
+        prettyError({
+          message: req.t('workspaces.middlewares.canCatchWorkspace.index.forbidden_logged'),
+        })
+      )
+    )
 
   if (!req.params.workspaceId)
-    return next(new Forbidden(prettyError({ message: 'id is not provided' })))
+    return next(
+      new Forbidden(
+        prettyError({
+          message: req.t('workspaces.middlewares.canCatchWorkspace.index.forbidden_id'),
+        })
+      )
+    )
 
   if (!mongoose.isValidObjectId(req.params.workspaceId))
-    return next(new UnprocessableEntity(prettyError({ message: 'id is not valid' })))
+    return next(
+      new UnprocessableEntity(
+        prettyError({
+          message: req.t('workspaces.middlewares.canCatchWorkspace.index.unprocessable'),
+        })
+      )
+    )
 
   // declare variables
   let workspace: DocumentType<Workspace> | null = null
@@ -31,7 +50,9 @@ export const canCatchWorkspace = async (req: Request, res: Response, next: NextF
 
     if (!workspace)
       throw new Forbidden(
-        prettyError({ message: "user is not part of the workspace or workspace doesn't exist" })
+        prettyError({
+          message: req.t('workspaces.middlewares.canCatchWorkspace.index.forbidden_no_workspace'),
+        })
       )
   } catch (error) {
     return next(error)

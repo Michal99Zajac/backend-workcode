@@ -52,7 +52,7 @@ router.delete(
     await WorkspaceModel.deleteOne({ _id: workspace._id })
 
     res.json({
-      message: `Workspace '${workspace.name}' has been deleted`,
+      message: req.t('workspaces.routes.id.index.delete.success', { name: workspace.name }),
     })
   }
 )

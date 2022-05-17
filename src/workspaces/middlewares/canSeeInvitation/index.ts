@@ -11,14 +11,29 @@ export const canSeeInvitation = async (req: Request, res: Response, next: NextFu
   const invitationId = req.params.invitationId
 
   if (!mongoose.isValidObjectId(invitationId))
-    return next(new UnprocessableEntity(prettyError({ message: 'invitation id is not valid' })))
+    return next(
+      new UnprocessableEntity(
+        prettyError({
+          message: req.t('workspaces.middlewares.canSeeInvitation.index.unprocessable'),
+        })
+      )
+    )
 
   const invitation = await InvitationModel.findById(invitationId)
 
-  if (!invitation) return next(new BadRequest(prettyError({ message: "invitation doesn't exist" })))
+  if (!invitation)
+    return next(
+      new BadRequest(
+        prettyError({ message: req.t('workspaces.middlewares.canSeeInvitation.index.bad_request') })
+      )
+    )
 
   if (!invitation.guest._id.equals(user._id))
-    return next(new Forbidden(prettyError({ message: 'user is not guest' })))
+    return next(
+      new Forbidden(
+        prettyError({ message: req.t('workspaces.middlewares.canSeeInvitation.index.forbidden') })
+      )
+    )
 
   res.locals.invitation = invitation
 

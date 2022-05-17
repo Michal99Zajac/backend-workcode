@@ -78,7 +78,67 @@
 			}
 		}
 	},
-	"workspaces": {},
+	"workspaces": {
+		"middlewares": {
+			"canCatchWorkspace": {
+				"index": {
+					"forbidden_logged": "user is not logged",
+					"forbidden_id": "id is not provided",
+					"unprocessable": "id is not valid",
+					"forbidden_no_workspace": "user is not part of the workspace or workspace doesn't exist"
+				}
+			},
+			"canSeeInvitation": {
+				"index": {
+					"unprocessable": "invitation id is not valid",
+					"bad_request": "invitation doesn't exist",
+					"forbidden": "user is not guest"
+				}
+			},
+			"isWorkspaceAuthor": {
+				"index": {
+					"roles_error": "workspaceAuthorGuard require workspaceGuard earlier",
+					"forbidden": "user is not owner of the workspace"
+				}
+			},
+			"isWorkspaceContributor": {
+				"index": {
+					"roles_error": "canLeave require canCatchWorkspace earlier exec",
+					"forbidden": "user is owner of the workspace"
+				}
+			}
+		},
+		"routes": {
+			"id": {
+				"leave": {
+					"index": {
+						"post": {
+							"success": "User leaved from workspace successfully"
+						}
+					}
+				},
+				"invite": {
+					"index": {
+						"post": {
+							"no_guest": "User doesn't exist",
+							"self": "Author can't invite self"
+						}
+					}
+				},
+				"contributors": {
+					"id": {
+						"index": {
+							"delete": {
+								"no_part": "User is not part of the workspace",
+								"success": "Updated successfully",
+								"fail": "Update faild"
+							}
+						}
+					}
+				}
+			}
+		}
+	},
 	"models": {},
 	"passport": {
 		"local": {
