@@ -11,12 +11,22 @@ import { WorkspaceRole } from '@workspaces/utils'
  */
 export const isWorkspaceContributor = (req: Request, res: Response, next: NextFunction) => {
   if (!res.locals.workspaceRoles)
-    throw new Error(prettyError({ message: 'canLeave require canCatchWorkspace earlier exec' }))
+    throw new Error(
+      prettyError({
+        message: req.t('workspaces.middlewares.isWorkspaceContributor.index.roles_error'),
+      })
+    )
 
   const roles = res.locals.workspaceRoles as WorkspaceRole[]
 
   if (!roles.includes(WorkspaceRole.CONTRIBUTE))
-    return next(new Forbidden(prettyError({ message: 'user is owner of the workspace' })))
+    return next(
+      new Forbidden(
+        prettyError({
+          message: req.t('workspaces.middlewares.isWorkspaceContributor.index.forbidden'),
+        })
+      )
+    )
 
   next()
 }

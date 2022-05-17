@@ -13,7 +13,10 @@ router.get('/editors/:workspaceId', async (req, res, next) => {
   try {
     const editor = await EditorModel.findOne({ workspace: workspaceId })
 
-    if (!editor) return next(new NotFound(prettyError({ message: "editor doen't exist" })))
+    if (!editor)
+      return next(
+        new NotFound(prettyError({ message: req.t('editor.routers.id.index.not_found') }))
+      )
 
     res.json(editor.public)
   } catch (error) {

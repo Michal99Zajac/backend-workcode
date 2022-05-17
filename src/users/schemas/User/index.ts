@@ -11,6 +11,7 @@ import {
 import autopopulate from 'mongoose-autopopulate'
 import validator from 'validator'
 import bcrypt from 'bcrypt'
+import i18n from 'i18next'
 
 import { paginater } from '@common/utils'
 import { PaginationQuery } from '@common/types'
@@ -45,25 +46,25 @@ const { SALT_ROUNDS } = config
 export class User extends BaseSchema {
   @prop({
     type: () => String,
-    required: [true, 'Name is required'],
-    maxlength: [255, 'Name is too long'],
+    required: [true, i18n.t('users.schemas.User.index.name_required')],
+    maxlength: [255, i18n.t('users.schemas.User.index.name_maxlength')],
   })
   public name: string
 
   @prop({
     type: () => String,
-    required: [true, 'Lastname is required'],
-    maxlength: [255, 'Lastname is too long'],
+    required: [true, i18n.t('users.schemas.User.index.lastname_required')],
+    maxlength: [255, i18n.t('users.schemas.User.index.lastname_maxlength')],
   })
   public lastname: string
 
   @prop({
     type: () => String,
-    required: [true, 'Email is required'],
+    required: [true, i18n.t('users.schemas.User.index.email_required')],
     unique: true,
     validate: {
       validator: (email: string) => validator.isEmail(email),
-      message: (value) => `${value.value} is not an email`,
+      message: (value) => i18n.t('users.schemas.User.index.email_validate', { value: value }),
     },
   })
   public email: string
@@ -76,10 +77,10 @@ export class User extends BaseSchema {
 
   @prop({
     type: () => String,
-    required: [true, 'Password is required'],
+    required: [true, i18n.t('users.schemas.User.index.password_required')],
     validate: {
-      validator: (password: string) => validator.isStrongPassword(password),
-      message: 'Password is too weak',
+      validator: (password: string) => validator.isLength(password, { min: 8 }),
+      message: i18n.t('users.schemas.User.index.password_validate'),
     },
   })
   public password: string

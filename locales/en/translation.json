@@ -1,5 +1,183 @@
 {
-	"example": {
-		"one": "one"
+	"auth": {
+		"routes": {
+			"forgot_password": {
+				"index": {
+					"post": {
+						"email": "user with that email doesnt exist",
+						"subject": "Workspace password restart",
+						"success": "Mail for password reset has been sent"
+					}
+				}
+			}
+		},
+		"templates": {
+			"forgot_password_message": {
+				"index": {
+					"title": "You have 15min for password restart",
+					"message": "restart password"
+				}
+			}
+		}
+	},
+	"common": {
+		"middlewares": {
+			"notFound": {
+				"index": {
+					"not_found": "not found"
+				}
+			},
+			"socket": {
+				"auth": {
+					"index": {
+						"unauthorized": "Unauthorized"
+					}
+				}
+			}
+		},
+		"utils": {
+			"prettyError": {
+				"index": {
+					"message": "{{value}} already exists"
+				}
+			}
+		}
+	},
+	"editor": {
+		"routers": {
+			"id": {
+				"index": {
+					"not_found": "editor doesn't exist"
+				}
+			}
+		}
+	},
+	"users": {
+		"routes": {
+			"id": {
+				"index": {
+					"get": {
+						"error": "not found"
+					}
+				}
+			},
+			"me": {
+				"index": {
+					"delete": {
+						"password": "password is incorrect",
+						"message": "user has been deleted"
+					}
+				}
+			}
+		},
+		"utils": {
+			"encryptPassword": {
+				"index": {
+					"password": "password is too short"
+				}
+			}
+		},
+		"schemas": {
+			"User": {
+				"index": {
+					"name_required": "Name is required",
+					"name_maxlength": "Name is too long",
+					"lastname_required": "Lastname is required",
+					"lastname_maxlength": "Lastname is too long",
+					"email_required": "Email is required",
+					"email_validate": "{{value}} is not an email",
+					"password_required": "Password is required",
+					"password_validate": "Password is too short. It should be at least 8 characters long"
+				}
+			}
+		}
+	},
+	"workspaces": {
+		"middlewares": {
+			"canCatchWorkspace": {
+				"index": {
+					"forbidden_logged": "user is not logged",
+					"forbidden_id": "id is not provided",
+					"unprocessable": "id is not valid",
+					"forbidden_no_workspace": "user is not part of the workspace or workspace doesn't exist"
+				}
+			},
+			"canSeeInvitation": {
+				"index": {
+					"unprocessable": "invitation id is not valid",
+					"bad_request": "invitation doesn't exist",
+					"forbidden": "user is not guest"
+				}
+			},
+			"isWorkspaceAuthor": {
+				"index": {
+					"roles_error": "workspaceAuthorGuard require workspaceGuard earlier",
+					"forbidden": "user is not owner of the workspace"
+				}
+			},
+			"isWorkspaceContributor": {
+				"index": {
+					"roles_error": "canLeave require canCatchWorkspace earlier exec",
+					"forbidden": "user is owner of the workspace"
+				}
+			}
+		},
+		"routes": {
+			"id": {
+				"leave": {
+					"index": {
+						"post": {
+							"success": "User leaved from workspace successfully"
+						}
+					}
+				},
+				"invite": {
+					"index": {
+						"post": {
+							"no_guest": "User doesn't exist",
+							"self": "Author can't invite self"
+						}
+					}
+				},
+				"contributors": {
+					"id": {
+						"index": {
+							"delete": {
+								"no_part": "User is not part of the workspace",
+								"success": "Updated successfully",
+								"fail": "Update faild"
+							}
+						}
+					}
+				},
+				"index": {
+					"delete": {
+						"success": "Workspace {{name}} has been deleted"
+					}
+				}
+			}
+		},
+		"schemas": {
+			"Workspace": {
+				"index": {
+					"name_required": "Name is required",
+					"name_maxlength": "Name is too long",
+					"code_required": "Code type is required"
+				}
+			}
+		}
+	},
+	"models": {},
+	"passport": {
+		"local": {
+			"incorrect": {
+				"email": "User with this email doesn't exist",
+				"password": "Password is incorrect"
+			},
+			"success": "You are logged"
+		},
+		"jwt": {
+			"unauthorized": "Unauthorized"
+		}
 	}
 }

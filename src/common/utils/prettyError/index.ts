@@ -1,3 +1,5 @@
+import i18n from 'i18next'
+
 export const prettyError = (error: any) => {
   // mongoose validation
   if (error.name === 'ValidationError') {
@@ -17,7 +19,7 @@ export const prettyError = (error: any) => {
 
     for (const entry of Object.entries(error.keyValue)) {
       const [key, value]: [any, any] = entry
-      records[key] = `${value} already exists`
+      records[key] = i18n.t('common.utils.prettyError.index.message', { value })
     }
 
     return records

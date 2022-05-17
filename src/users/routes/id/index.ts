@@ -13,7 +13,7 @@ router.get('/users/:_id', async (req, res, next) => {
     const user = await UserModel.findOne({ _id: _id }).orFail()
     res.status(200).json(user.public)
   } catch (error) {
-    next(new NotFound(prettyError({ message: req.t('error.not_found') })))
+    next(new NotFound(prettyError({ message: req.t('users.routes.id.index.get.error') })))
   }
 })
 

@@ -1,5 +1,183 @@
 {
-  "example": {
-    "one": "jeden"
-  }
+	"auth": {
+		"routes": {
+			"forgot_password": {
+				"index": {
+					"post": {
+						"email": "Użytkownik o tym mailu nie istnieje",
+						"subject": "Workspace restart hasła ",
+						"success": "Mail ze zmiana hasła został wysłany"
+					}
+				}
+			}
+		},
+		"templates": {
+			"forgot_password_message": {
+				"index": {
+					"title": "Masz 15 min na zmiane hasła",
+					"message": "Zmień hasło"
+				}
+			}
+		}
+	},
+	"common": {
+		"middlewares": {
+			"notFound": {
+				"index": {
+					"not_found": "Nie znaleziono"
+				}
+			},
+			"socket": {
+				"auth": {
+					"index": {
+						"unauthorized": "Nieautoryzowany"
+					}
+				}
+			}
+		},
+		"utils": {
+			"prettyError": {
+				"index": {
+					"message": "{{value}} już istnieje"
+				}
+			}
+		}
+	},
+	"editor": {
+		"routers": {
+			"id": {
+				"index": {
+					"not_found": "Edytor nie istnieje"
+				}
+			}
+		}
+	},
+	"users": {
+		"routes": {
+			"id": {
+				"index": {
+					"get": {
+						"error": "Nie znaleziono"
+					}
+				}
+			},
+			"me": {
+				"index": {
+					"delete": {
+						"password": "Hasło jest niepoprawne",
+						"message": "Użytkownik został usunięty"
+					}
+				}
+			}
+		},
+		"utils": {
+			"encryptPassword": {
+				"index": {
+					"password": "Hasło jest za krótkie"
+				}
+			}
+		},
+		"schemas": {
+			"User": {
+				"index": {
+					"name_required": "Imie jest wymagane",
+					"name_maxlength": "Imie jest za długie",
+					"lastname_required": "Nazwisko jest wymagane",
+					"lastname_maxlength": "Nazwisko jest za długie",
+					"email_required": "Email is required",
+					"email_validate": "{{value}} nie ma formy mail'a",
+					"password_required": "Hasło jest wymagane",
+					"password_validate": "Hasło jest za krótkie. Powinno posiadać conajmniej 8 znaków"
+				}
+			}
+		}
+	},
+	"workspaces": {
+		"middlewares": {
+			"canCatchWorkspace": {
+				"index": {
+					"forbidden_logged": "Użytkownik nie jest zalogowany",
+					"forbidden_id": "Id nie jest wprowadzone",
+					"unprocessable": "Id jest niepoprawne",
+					"forbidden_no_workspace": "Użytkownik nie jest cześcią workspace'u lub workspace nie istnieje"
+				}
+			},
+			"canSeeInvitation": {
+				"index": {
+					"unprocessable": "Id zaproszenia nie jest poprawne",
+					"bad_request": "Zaproszenie nie istnieje",
+					"forbidden": "Użytkownik nie jest zaproszony"
+				}
+			},
+			"isWorkspaceAuthor": {
+				"index": {
+					"roles_error": "workspaceAuthorGuard require workspaceGuard earlier",
+					"forbidden": "Użytkownik nie jest właścicielem workspace'u"
+				}
+			},
+			"isWorkspaceContributor": {
+				"index": {
+					"roles_error": "canLeave require canCatchWorkspace earlier exec",
+					"forbidden": "Urzytkonik jest właścicielem workspace'u"
+				}
+			}
+		},
+		"routes": {
+			"id": {
+				"leave": {
+					"index": {
+						"post": {
+							"success": "Urzytkonik opuścił workspace pomyślnie"
+						}
+					}
+				},
+				"invite": {
+					"index": {
+						"post": {
+							"no_guest": "Urzytkonik nie istnieje",
+							"self": "Autor nie może zaprosic samego siebie"
+						}
+					}
+				},
+				"contributors": {
+					"id": {
+						"index": {
+							"delete": {
+								"no_part": "Użytkownik nie jest cześcią workspace'u",
+								"success": "Zaktualizowano pomyślnie",
+								"fail": "Aktualizacja nie powiodła się"
+							}
+						}
+					}
+				},
+				"index": {
+					"delete": {
+						"success": "Workspace {{name}} został usunięty"
+					}
+				}
+			}
+		},
+		"schemas": {
+			"Workspace": {
+				"index": {
+					"name_required": "Imie jest wymagane",
+					"name_maxlength": "Imie jest za krótkie",
+					"code_required": "Typ kodu jest wymagany"
+				}
+			}
+		}
+	},
+	"models": {},
+	"passport": {
+		"local": {
+			"incorrect": {
+				"email": "Użytkownik z tym mailem nie istnieje",
+				"password": "Hasło jest niepoprawne"
+			},
+			"success": "Jesteś zalogowany"
+		},
+		"jwt": {
+			"unauthorized": "Nieautoryzowany"
+		}
+	}
 }

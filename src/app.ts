@@ -10,7 +10,7 @@ import userRouter from '@users/routes'
 import { router as authRouter } from '@auth/routes'
 import { router as workspaceRouter } from '@workspaces/routes'
 import { router as editorRouter } from '@editor/routers'
-import { errorHandler, notFound } from '@common/middlewares'
+import { errorHandler, notFound, language } from '@common/middlewares'
 import { initEditor } from '@editor/connection'
 import { initChat } from '@chat/connection'
 
@@ -47,6 +47,7 @@ export const App = async () => {
   app.use(helmet())
   app.use(cors(corsOptions))
   app.use(i18n)
+  app.use(language)
   app.use(express.urlencoded({ extended: true }))
   app.use(express.json())
   app.use(passport.initialize())
