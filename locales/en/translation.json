@@ -76,6 +76,20 @@
 					"password": "password is too weak"
 				}
 			}
+		},
+		"schemas": {
+			"User": {
+				"index": {
+					"name_required": "Name is required",
+					"name_maxlength": "Name is too long",
+					"lastname_required": "Lastname is required",
+					"lastname_maxlength": "Lastname is too long",
+					"email_required": "Email is required",
+					"email_validate": "{{value}} is not an email",
+					"password_required": "Password is required",
+					"password_validate": "Password is too short. It should be at least 8 characters long"
+				}
+			}
 		}
 	},
 	"workspaces": {
@@ -135,6 +149,20 @@
 							}
 						}
 					}
+				},
+				"index": {
+					"delete": {
+						"success": "Workspace {{name}} has been deleted"
+					}
+				}
+			}
+		},
+		"schemas": {
+			"Workspace": {
+				"index": {
+					"name_required": "Name is required",
+					"name_maxlength": "Name is too long",
+					"code_required": "Code type is required"
 				}
 			}
 		}

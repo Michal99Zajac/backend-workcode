@@ -1,5 +1,6 @@
 import { modelOptions, prop, PropType, Ref, plugin, pre, post } from '@typegoose/typegoose'
 import autopopulate from 'mongoose-autopopulate'
+import i18n from 'i18next'
 
 import { InvitationModel, WorkspaceModel, EditorModel } from '@root/models'
 import { BaseSchema } from '@root/types'
@@ -55,14 +56,14 @@ export class Workspace extends BaseSchema {
 
   @prop({
     type: () => String,
-    required: [true, 'Name is required'],
-    maxlength: [255, 'Name is too long'],
+    required: [true, i18n.t('workspaces.schemas.Workspace.index.name_required')],
+    maxlength: [255, i18n.t('workspaces.schemas.Workspace.index.name_maxlength')],
   })
   public name: string
 
   @prop({
     type: () => String,
-    required: [true, 'Code type is required'],
+    required: [true, i18n.t('workspaces.schemas.Workspace.index.code_required')],
     enum: ['BASH', 'JAVASCRIPT', 'PYTHON'],
   })
   public code: string
