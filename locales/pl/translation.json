@@ -4,7 +4,7 @@
 			"forgot_password": {
 				"index": {
 					"post": {
-						"email": "Urzytkownik o tym mailu nie istnieje",
+						"email": "Użytkownik o tym mailu nie istnieje",
 						"subject": "Workspace restart hasła ",
 						"success": "Mail ze zmiana hasła został wysłany"
 					}
@@ -65,7 +65,7 @@
 				"index": {
 					"delete": {
 						"password": "Hasło jest niepoprawne",
-						"message": "Urzytkownik został usunięty"
+						"message": "Użytkownik został usunięty"
 					}
 				}
 			}
@@ -96,23 +96,23 @@
 		"middlewares": {
 			"canCatchWorkspace": {
 				"index": {
-					"forbidden_logged": "Urzytkownik nie jest zalogowany",
+					"forbidden_logged": "Użytkownik nie jest zalogowany",
 					"forbidden_id": "Id nie jest wprowadzone",
 					"unprocessable": "Id jest niepoprawne",
-					"forbidden_no_workspace": "Urzytkownik nie jest cześcią workspace'u lub workspace nie istnieje"
+					"forbidden_no_workspace": "Użytkownik nie jest cześcią workspace'u lub workspace nie istnieje"
 				}
 			},
 			"canSeeInvitation": {
 				"index": {
 					"unprocessable": "Id zaproszenia nie jest poprawne",
 					"bad_request": "Zaproszenie nie istnieje",
-					"forbidden": "Urzytkownik nie jest zaproszony"
+					"forbidden": "Użytkownik nie jest zaproszony"
 				}
 			},
 			"isWorkspaceAuthor": {
 				"index": {
 					"roles_error": "workspaceAuthorGuard require workspaceGuard earlier",
-					"forbidden": "Urzytkownik nie jest właścicielem workspace'u"
+					"forbidden": "Użytkownik nie jest właścicielem workspace'u"
 				}
 			},
 			"isWorkspaceContributor": {
@@ -143,7 +143,7 @@
 					"id": {
 						"index": {
 							"delete": {
-								"no_part": "Urzytkownik nie jest cześcią workspace'u",
+								"no_part": "Użytkownik nie jest cześcią workspace'u",
 								"success": "Zaktualizowano pomyślnie",
 								"fail": "Aktualizacja nie powiodła się"
 							}
@@ -171,7 +171,7 @@
 	"passport": {
 		"local": {
 			"incorrect": {
-				"email": "Urzytkownik z tym mailem nie istnieje",
+				"email": "Użytkownik z tym mailem nie istnieje",
 				"password": "Hasło jest niepoprawne"
 			},
 			"success": "Jesteś zalogowany"
