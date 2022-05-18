@@ -44,13 +44,6 @@
 		}
 	},
 	"editor": {
-		"routers": {
-			"id": {
-				"index": {
-					"not_found": "Edytor nie istnieje"
-				}
-			}
-		},
 		"middlewares": {
 			"editorGuard": {
 				"index": {
