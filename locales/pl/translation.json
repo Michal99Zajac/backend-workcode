@@ -44,10 +44,11 @@
 		}
 	},
 	"editor": {
-		"routers": {
-			"id": {
+		"middlewares": {
+			"editorGuard": {
 				"index": {
-					"not_found": "Edytor nie istnieje"
+					"not_found": "Edytor nie istnieje",
+					"forbbiden": "Użytkownik nie jest częścią workspace'u"
 				}
 			}
 		}

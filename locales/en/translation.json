@@ -4,7 +4,7 @@
 			"forgot_password": {
 				"index": {
 					"post": {
-						"email": "user with that email doesnt exist",
+						"email": "User with that email doesnt exist",
 						"subject": "Workspace password restart",
 						"success": "Mail for password reset has been sent"
 					}
@@ -24,7 +24,7 @@
 		"middlewares": {
 			"notFound": {
 				"index": {
-					"not_found": "not found"
+					"not_found": "Not found"
 				}
 			},
 			"socket": {
@@ -44,10 +44,11 @@
 		}
 	},
 	"editor": {
-		"routers": {
-			"id": {
+		"middlewares": {
+			"editorGuard": {
 				"index": {
-					"not_found": "editor doesn't exist"
+					"not_found": "Editor doesn't exist",
+					"forbbiden": "User is not part of workspace"
 				}
 			}
 		}
@@ -57,15 +58,15 @@
 			"id": {
 				"index": {
 					"get": {
-						"error": "not found"
+						"error": "Not found"
 					}
 				}
 			},
 			"me": {
 				"index": {
 					"delete": {
-						"password": "password is incorrect",
-						"message": "user has been deleted"
+						"password": "Password is incorrect",
+						"message": "User has been deleted"
 					}
 				}
 			}
@@ -73,7 +74,7 @@
 		"utils": {
 			"encryptPassword": {
 				"index": {
-					"password": "password is too short"
+					"password": "Password is too short"
 				}
 			}
 		},
@@ -96,29 +97,29 @@
 		"middlewares": {
 			"canCatchWorkspace": {
 				"index": {
-					"forbidden_logged": "user is not logged",
-					"forbidden_id": "id is not provided",
-					"unprocessable": "id is not valid",
-					"forbidden_no_workspace": "user is not part of the workspace or workspace doesn't exist"
+					"forbidden_logged": "User is not logged",
+					"forbidden_id": "Id is not provided",
+					"unprocessable": "Id is not valid",
+					"forbidden_no_workspace": "User is not part of the workspace or workspace doesn't exist"
 				}
 			},
 			"canSeeInvitation": {
 				"index": {
-					"unprocessable": "invitation id is not valid",
-					"bad_request": "invitation doesn't exist",
-					"forbidden": "user is not guest"
+					"unprocessable": "Invitation id is not valid",
+					"bad_request": "Invitation doesn't exist",
+					"forbidden": "User is not guest"
 				}
 			},
 			"isWorkspaceAuthor": {
 				"index": {
 					"roles_error": "workspaceAuthorGuard require workspaceGuard earlier",
-					"forbidden": "user is not owner of the workspace"
+					"forbidden": "User is not owner of the workspace"
 				}
 			},
 			"isWorkspaceContributor": {
 				"index": {
 					"roles_error": "canLeave require canCatchWorkspace earlier exec",
-					"forbidden": "user is owner of the workspace"
+					"forbidden": "User is owner of the workspace"
 				}
 			}
 		},
