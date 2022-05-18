@@ -50,6 +50,14 @@
 					"not_found": "Edytor nie istnieje"
 				}
 			}
+		},
+		"middlewares": {
+			"editorGuard": {
+				"index": {
+					"not_found": "Edytor nie istnieje",
+					"forbbiden": "Użytkownik nie jest częścią workspace'u"
+				}
+			}
 		}
 	},
 	"users": {

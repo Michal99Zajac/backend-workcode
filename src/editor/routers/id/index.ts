@@ -1,27 +1,14 @@
 import { Router } from 'express'
-import { BadRequest, NotFound } from 'http-errors'
 
-import { EditorModel } from '@root/models'
-import { prettyError } from '@common/utils'
+import { editorGuard } from '@editor/middlewares'
+import { Editor } from '@editor/schemas'
 
 export const router = Router()
 
-// TODO: add guardian
-router.get('/editors/:workspaceId', async (req, res, next) => {
-  const workspaceId = req.params.workspaceId
+router.get('/editors/:workspaceId', editorGuard, (req, res) => {
+  const editor = res.locals.editor as Editor
 
-  try {
-    const editor = await EditorModel.findOne({ workspace: workspaceId })
-
-    if (!editor)
-      return next(
-        new NotFound(prettyError({ message: req.t('editor.routers.id.index.not_found') }))
-      )
-
-    res.json(editor.public)
-  } catch (error) {
-    next(new BadRequest(prettyError(error)))
-  }
+  res.json(editor.public)
 })
 
 export default router
