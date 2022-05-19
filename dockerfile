@@ -8,7 +8,7 @@ COPY package.json .
 COPY yarn.lock .
 COPY src src
 COPY tsconfig.json .
-COPY locales .
+COPY /locales ./locales
 
 FROM node as builder
 
