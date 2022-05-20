@@ -9,8 +9,8 @@ i18next
     debug: false,
     preload: ['en', 'pl'],
     backend: {
-      loadPath: __dirname + '/../locales/{{lng}}/{{ns}}.json',
-      addPath: __dirname + '/../locales/{{lng}}/{{ns}}.missing.json',
+      loadPath: __dirname + '/locales/{{lng}}/{{ns}}.json',
+      addPath: __dirname + '/locales/{{lng}}/{{ns}}.missing.json',
     },
     saveMissing: true,
     fallbackLng: 'en',

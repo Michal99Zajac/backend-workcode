@@ -19,7 +19,7 @@ export const prettyError = (error: any) => {
 
     for (const entry of Object.entries(error.keyValue)) {
       const [key, value]: [any, any] = entry
-      records[key] = i18n.t('common.utils.prettyError.index.message', { value })
+      records[key] = i18n.t('common.utils.prettyError.index.message', { value: value })
     }
 
     return records
