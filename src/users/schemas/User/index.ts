@@ -80,7 +80,7 @@ export class User extends BaseSchema {
     required: [true, i18n.t('users.schemas.User.index.password_required')],
     validate: {
       validator: (password: string) => validator.isLength(password, { min: 8 }),
-      message: i18n.t('users.schemas.User.index.password_validate'),
+      message: () => i18n.t('users.schemas.User.index.password_validate'),
     },
   })
   public password: string
