@@ -106,4 +106,4 @@ dist
 .tern-port
 
 # locales
-locales/**/*.missing.json
+src/locales/**/*.missing.json
